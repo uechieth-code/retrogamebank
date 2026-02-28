@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@theme {
+  --color-retro-bg: #0a0a0f;
+  --color-retro-card: #141420;
+  --color-retro-border: #2a2a3a;
+  --color-retro-accent: #00d4ff;
+  --color-retro-accent2: #ff6b35;
+  --color-retro-text: #e0e0e8;
+  --color-retro-text-dim: #8888a0;
+  --color-retro-green: #00ff88;
+  --color-retro-yellow: #ffd700;
+  --color-retro-red: #ff4444;
+  --color-retro-purple: #a855f7;
+  --font-family-pixel: 'DotGothic16', 'M PLUS Rounded 1c', sans-serif;
+}
+
+body {
+  background-color: var(--color-retro-bg);
+  color: var(--color-retro-text);
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-retro-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-retro-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-retro-accent);
+}
+
+/* レトロなグロー効果 */
+.retro-glow {
+  text-shadow: 0 0 10px var(--color-retro-accent), 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.retro-glow-orange {
+  text-shadow: 0 0 10px var(--color-retro-accent2), 0 0 20px rgba(255, 107, 53, 0.3);
+}
+
+/* カードホバー効果 */
+.game-card {
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-retro-border);
+}
+
+.game-card:hover {
+  border-color: var(--color-retro-accent);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* プレミア度の色分け */
+.premium-1 { color: var(--color-retro-text-dim); }
+.premium-2 { color: var(--color-retro-green); }
+.premium-3 { color: var(--color-retro-yellow); }
+.premium-4 { color: var(--color-retro-accent2); }
+.premium-5 { color: var(--color-retro-red); }
+
+/* タグスタイル */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tag-console {
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--color-retro-accent);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.tag-genre {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--color-retro-purple);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* ショップボタン */
+.shop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* フィルターパネル */
+.filter-panel {
+  background: var(--color-retro-card);
+  border: 1px solid var(--color-retro-border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* ページネーション */
+.pagination-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--color-retro-border);
+  background: var(--color-retro-card);
+  color: var(--color-retro-text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover {
+  border-color: var(--color-retro-accent);
+  color: var(--color-retro-accent);
+}
+
+.pagination-btn.active {
+  background: var(--color-retro-accent);
+  color: var(--color-retro-bg);
+  border-color: var(--color-retro-accent);
+  font-weight: 700;
+}
+
+/* 検索入力 */
+.search-input {
+  background: var(--color-retro-bg);
+  border: 1px solid var(--color-retro-border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--color-retro-text);
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-retro-accent);
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+.search-input::placeholder {
+  color: var(--color-retro-text-dim);
+}
+
+/* セレクト */
+.retro-select {
+  background: var(--color-retro-bg);
+  border: 1px solid var(--color-retro-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--color-retro-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.retro-select:focus {
+  outline: none;
+  border-color: var(--color-retro-accent);
+}
+
+/* チェックボックス */
+.retro-checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-retro-border);
+  border-radius: 4px;
+  background: var(--color-retro-bg);
+  cursor: pointer;
+  position: relative;
+}
+
+.retro-checkbox:checked {
+  background: var(--color-retro-accent);
+  border-color: var(--color-retro-accent);
+}
+
+.retro-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-retro-bg);
+  font-size: 12px;
+  font-weight: bold;
+}
