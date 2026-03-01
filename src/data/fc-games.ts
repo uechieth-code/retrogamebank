@@ -1076,7 +1076,7 @@ export const fcGames: Game[] = raw.map(([d, t, p, genres, usedP, newP, origP, sa
   player_count: "1-2人",
   current_new_price: newP,
   current_used_price: usedP,
-  total_sales: sales ? sales * 10000 : null,
+  total_sales: sales,
   premium_rank: usedP !== null && origP !== null ? (usedP >= origP * 5 ? 5 : usedP >= origP * 3 ? 4 : usedP >= origP * 1.5 ? 3 : usedP >= origP * 0.8 ? 2 : 1) : 0,
   slug: slug(t),
 }));

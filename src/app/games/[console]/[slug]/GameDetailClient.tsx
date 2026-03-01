@@ -22,8 +22,8 @@ export default function GameDetailClient({
   paramsPromise: Promise<{ console: string; slug: string }>;
 }) {
   const params = use(paramsPromise);
-  const consoleId = params.console;
-  const slug = params.slug;
+  const consoleId = decodeURIComponent(params.console);
+  const slug = decodeURIComponent(params.slug);
 
   const game = getGameBySlug(consoleId, slug);
   const consoleInfo = getConsole(consoleId);
