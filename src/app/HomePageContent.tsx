@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { allGames, getAllPublishers, getAllGenres } from "@/data/games";
 import { getMvpConsoles } from "@/data/consoles";
 import { formatPrice, formatSales, formatDate, premiumRankToStars } from "@/lib/utils";
@@ -449,57 +448,59 @@ export default function HomePageContent() {
           </thead>
           <tbody>
             {paginatedGames.map((game) => (
-              <Link key={game.id} href={`/games/${game.console_id}/${game.slug}`}>
-                <tr className="border-b border-[var(--color-retro-border)] hover:bg-[var(--color-retro-card)] transition-colors cursor-pointer">
-                  <td className="py-3 px-2">
-                    <span className="font-medium hover:text-[var(--color-retro-accent)] transition-colors">
-                      {game.title}
-                    </span>
-                  </td>
-                  <td className="py-3 px-2">
-                    <span className="tag tag-console">
-                      {getConsoleShortName(game.console_id)}
-                    </span>
-                  </td>
-                  <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden md:table-cell">
-                    {game.publisher}
-                  </td>
-                  <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden sm:table-cell whitespace-nowrap">
-                    {formatDate(game.release_date)}
-                  </td>
-                  <td className="py-3 px-2 hidden lg:table-cell">
-                    <div className="flex flex-wrap gap-1">
-                      {game.genre.map((g) => (
-                        <span key={g} className="tag tag-genre">
-                          {g}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="py-3 px-2 text-right hidden sm:table-cell whitespace-nowrap">
-                    {formatPrice(game.current_new_price)}
-                  </td>
-                  <td className="py-3 px-2 text-right whitespace-nowrap">
-                    <span
-                      className={
-                        game.premium_rank >= 4
-                          ? "text-[var(--color-retro-accent2)] font-bold"
-                          : ""
-                      }
-                    >
-                      {formatPrice(game.current_used_price)}
-                    </span>
-                  </td>
-                  <td className="py-3 px-2 text-right text-[var(--color-retro-text-dim)] hidden md:table-cell whitespace-nowrap">
-                    {game.total_sales !== null
-                      ? formatSales(game.total_sales)
-                      : "—"}
-                  </td>
-                  <td className={`py-3 px-2 whitespace-nowrap premium-${game.premium_rank}`}>
-                    {premiumRankToStars(game.premium_rank)}
-                  </td>
-                </tr>
-              </Link>
+              <tr
+                key={game.id}
+                className="border-b border-[var(--color-retro-border)] hover:bg-[var(--color-retro-card)] transition-colors cursor-pointer"
+                onClick={() => router.push(`/games/${game.console_id}/${game.slug}`)}
+              >
+                <td className="py-3 px-2">
+                  <span className="font-medium hover:text-[var(--color-retro-accent)] transition-colors">
+                    {game.title}
+                  </span>
+                </td>
+                <td className="py-3 px-2">
+                  <span className="tag tag-console">
+                    {getConsoleShortName(game.console_id)}
+                  </span>
+                </td>
+                <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden md:table-cell">
+                  {game.publisher}
+                </td>
+                <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden sm:table-cell whitespace-nowrap">
+                  {formatDate(game.release_date)}
+                </td>
+                <td className="py-3 px-2 hidden lg:table-cell">
+                  <div className="flex flex-wrap gap-1">
+                    {game.genre.map((g) => (
+                      <span key={g} className="tag tag-genre">
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+                <td className="py-3 px-2 text-right hidden sm:table-cell whitespace-nowrap">
+                  {formatPrice(game.current_new_price)}
+                </td>
+                <td className="py-3 px-2 text-right whitespace-nowrap">
+                  <span
+                    className={
+                      game.premium_rank >= 4
+                        ? "text-[var(--color-retro-accent2)] font-bold"
+                        : ""
+                    }
+                  >
+                    {formatPrice(game.current_used_price)}
+                  </span>
+                </td>
+                <td className="py-3 px-2 text-right text-[var(--color-retro-text-dim)] hidden md:table-cell whitespace-nowrap">
+                  {game.total_sales !== null
+                    ? formatSales(game.total_sales)
+                    : "—"}
+                </td>
+                <td className={`py-3 px-2 whitespace-nowrap premium-${game.premium_rank}`}>
+                  {premiumRankToStars(game.premium_rank)}
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
