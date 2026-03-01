@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "ファミコン、スーパーファミコン、ゲームボーイなどレトロゲームソフトの価格情報・販売データ・購入先リンクを一元提供する情報サイト。プレミアソフトの価格推移もチェックできます。",
   keywords: "レトロゲーム,ファミコン,スーパーファミコン,ゲームボーイ,中古ゲーム,価格,プレミアソフト",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

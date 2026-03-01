@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- Background -->
+  <rect width="192" height="192" fill="#1a1a2e"/>
+
+  <!-- NES-style Game Controller -->
+  <!-- Left side (D-pad area) -->
+  <rect x="25" y="60" width="50" height="72" rx="8" fill="#2d2d3d"/>
+
+  <!-- D-pad -->
+  <rect x="32" y="70" width="12" height="28" fill="#4a4a5e"/>
+  <rect x="32" y="72" width="12" height="8" fill="#6a6a7e"/>
+  <rect x="22" y="84" width="32" height="12" fill="#4a4a5e"/>
+  <rect x="24" y="84" width="8" height="12" fill="#6a6a7e"/>
+
+  <!-- Center piece -->
+  <rect x="50" y="75" width="92" height="42" rx="6" fill="#2d2d3d"/>
+  <circle cx="96" cy="96" r="15" fill="#4a4a5e"/>
+  <circle cx="96" cy="96" r="10" fill="#6a6a7e"/>
+
+  <!-- Right side (A/B button area) -->
+  <rect x="117" y="60" width="50" height="72" rx="8" fill="#2d2d3d"/>
+
+  <!-- A Button -->
+  <circle cx="135" cy="85" r="10" fill="#e74c3c"/>
+  <circle cx="135" cy="85" r="7" fill="#c0392b"/>
+
+  <!-- B Button -->
+  <circle cx="155" cy="95" r="10" fill="#3498db"/>
+  <circle cx="155" cy="95" r="7" fill="#2980b9"/>
+
+  <!-- X Button (top right) -->
+  <circle cx="155" cy="75" r="8" fill="#f39c12"/>
+  <circle cx="155" cy="75" r="5" fill="#d68910"/>
+
+  <!-- Y Button (left of A) -->
+  <circle cx="145" cy="75" r="8" fill="#9b59b6"/>
+  <circle cx="145" cy="75" r="5" fill="#8e44ad"/>
+
+  <!-- Highlight/shine for 3D effect -->
+  <ellipse cx="50" cy="55" rx="40" ry="8" fill="#ffffff" opacity="0.1"/>
+
+  <!-- Bottom accent stripe (retro style) -->
+  <rect x="25" y="130" width="142" height="4" fill="#e74c3c" opacity="0.6"/>
+</svg>
