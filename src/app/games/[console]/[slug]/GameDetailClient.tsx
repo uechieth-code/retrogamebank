@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import { getGameBySlug, allGames } from "@/data/games";
 import { getConsole } from "@/data/consoles";
 import { getPriceHistory } from "@/data/price-history";
@@ -28,6 +28,15 @@ export default function GameDetailClient({
   const game = getGameBySlug(consoleId, slug);
   const consoleInfo = getConsole(consoleId);
 
+  // sessionStorageからフィルター付きURLを復元（Hooksはearly return前に配置）
+  const [listUrl, setListUrl] = useState("/");
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem("retrogamebank_filters");
+      if (saved) setListUrl(`/?${saved}`);
+    } catch {}
+  }, []);
+
   if (!game || !consoleInfo) {
     return (
       <div className="text-center py-20">
@@ -38,7 +47,7 @@ export default function GameDetailClient({
           URLが正しいかご確認ください
         </p>
         <a
-          href="/"
+          href={listUrl}
           className="inline-block mt-4 px-6 py-2 rounded-lg bg-[var(--color-retro-accent)] text-[var(--color-retro-bg)] font-bold"
         >
           一覧に戻る
@@ -84,7 +93,7 @@ export default function GameDetailClient({
     <div>
       {/* パンくずリスト */}
       <nav className="text-sm text-[var(--color-retro-text-dim)] mb-6">
-        <a href="/" className="hover:text-[var(--color-retro-accent)]">
+        <a href={listUrl} className="hover:text-[var(--color-retro-accent)]">
           ソフト一覧
         </a>
         <span className="mx-2">/</span>

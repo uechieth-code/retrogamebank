@@ -30,26 +30,37 @@ export default function HomePageContent() {
   const [showFilters, setShowFilters] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // URL search paramsから状態を復元
+  // URL search paramsまたはsessionStorageから状態を復元
   useEffect(() => {
     if (isInitialized) return;
 
-    setSearch(searchParams.get("search") || "");
-    setSelectedConsoles(searchParams.get("consoles")?.split(",").filter(Boolean) || []);
-    setSelectedPublisher(searchParams.get("publisher") || "");
-    setSelectedGenres(searchParams.get("genres")?.split(",").filter(Boolean) || []);
-    setPriceMin(searchParams.get("priceMin") || "");
-    setPriceMax(searchParams.get("priceMax") || "");
-    setPremiumFilter(Number(searchParams.get("premium") || 0));
-    setSortKey((searchParams.get("sortKey") as SortKey) || "release_date");
-    setSortOrder((searchParams.get("sortOrder") as SortOrder) || "desc");
-    setPage(Number(searchParams.get("page") || 1));
-    setShowFilters(searchParams.get("showFilters") === "true");
+    // URLにパラメータがあればそちらを優先、なければsessionStorageから復元
+    let sp: { get: (key: string) => string | null } = searchParams;
+    if (!searchParams.toString()) {
+      try {
+        const saved = sessionStorage.getItem("retrogamebank_filters");
+        if (saved) {
+          sp = new URLSearchParams(saved);
+        }
+      } catch {}
+    }
+
+    setSearch(sp.get("search") || "");
+    setSelectedConsoles(sp.get("consoles")?.split(",").filter(Boolean) || []);
+    setSelectedPublisher(sp.get("publisher") || "");
+    setSelectedGenres(sp.get("genres")?.split(",").filter(Boolean) || []);
+    setPriceMin(sp.get("priceMin") || "");
+    setPriceMax(sp.get("priceMax") || "");
+    setPremiumFilter(Number(sp.get("premium") || 0));
+    setSortKey((sp.get("sortKey") as SortKey) || "release_date");
+    setSortOrder((sp.get("sortOrder") as SortOrder) || "desc");
+    setPage(Number(sp.get("page") || 1));
+    setShowFilters(sp.get("showFilters") === "true");
 
     setIsInitialized(true);
   }, [searchParams, isInitialized]);
 
-  // 状態が変更された時にURLを更新
+  // 状態が変更された時にURLを更新 + sessionStorageに保存
   useEffect(() => {
     if (!isInitialized) return;
 
@@ -69,6 +80,11 @@ export default function HomePageContent() {
     const queryString = params.toString();
     const newUrl = queryString ? `/?${queryString}` : "/";
     router.replace(newUrl, { scroll: false });
+
+    // sessionStorageにも保存（詳細ページから戻る時用）
+    try {
+      sessionStorage.setItem("retrogamebank_filters", queryString);
+    } catch {}
   }, [search, selectedConsoles, selectedPublisher, selectedGenres, priceMin, priceMax, premiumFilter, sortKey, sortOrder, page, showFilters, isInitialized, router]);
 
   // フィルタリングとソート
