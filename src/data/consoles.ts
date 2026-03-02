@@ -29,7 +29,7 @@ export const consoles: Console[] = [
   { id: "x360", name: "Xbox 360", short_name: "X360", manufacturer: "Microsoft", type: "home", release_year: 2005, sort_order: 26 },
 ];
 
-export const mvpConsoleIds = ["fc", "sfc", "gb", "gba", "nds", "3ds", "ps1", "ps2", "md", "ss"];
+export const mvpConsoleIds = ["fc", "sfc", "gb", "gba", "nds", "3ds", "ps1", "ps2", "md", "ss", "n64", "gc", "dc", "pce", "psp", "neogeo"];
 
 export function getConsole(id: string): Console | undefined {
   return consoles.find((c) => c.id === id);
