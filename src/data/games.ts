@@ -4,7 +4,10 @@ import { sfcGames } from "./sfc-games";
 import { gbGames } from "./gb-games";
 import { mdGames } from "./md-games";
 
-import { gbaGames, ndsGames, ps1Games, ps2Games, ssGames } from "./games-expanded";
+import { gbaGames } from "./gba-games";
+import { ndsGames } from "./nds-games";
+import { ssGames } from "./ss-games";
+import { ps1Games, ps2Games } from "./games-expanded";
 
 export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames];
 
