@@ -44,7 +44,7 @@ export function formatDate(dateStr: string): string {
 export function generateShopLinks(game: Game, consoleName: string): ShopLink[] {
   const query = encodeURIComponent(`${game.title} ${consoleName}`);
   return [
-    { shop_name: "Amazon", url: `https://www.amazon.co.jp/s?k=${query}&tag=YOUR_AFFILIATE_TAG`, color: "#FF9900" },
+    { shop_name: "Amazon", url: `https://www.amazon.co.jp/s?k=${query}&tag=retrogamebank-22`, color: "#FF9900" },
     { shop_name: "楽天市場", url: `https://search.rakuten.co.jp/search/mall/${query}/`, color: "#BF0000" },
     { shop_name: "駿河屋", url: `https://www.suruga-ya.jp/search?category=&search_word=${query}`, color: "#1B4D8E" },
     { shop_name: "メルカリ", url: `https://www.mercari.com/jp/search/?keyword=${query}`, color: "#FF0211" },
