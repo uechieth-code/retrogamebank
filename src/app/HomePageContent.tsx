@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { allGames, getAllPublishers, getAllGenres } from "@/data/games";
-import { getMvpConsoles } from "@/data/consoles";
+import { getMvpConsoles, getConsole } from "@/data/consoles";
 import { formatPrice, formatSales, formatDate, premiumRankToStars } from "@/lib/utils";
 import type { SortKey, SortOrder } from "@/types";
 
@@ -213,8 +213,8 @@ export default function HomePageContent() {
   };
 
   const getConsoleShortName = (id: string) => {
-    const c = consoles.find((c) => c.id === id);
-    return c?.short_name ?? id;
+    const c = getConsole(id);
+    return c?.short_name ?? id.toUpperCase();
   };
 
   return (
@@ -228,7 +228,7 @@ export default function HomePageContent() {
           レトロゲームソフト一覧
         </h2>
         <p className="text-[var(--color-retro-text-dim)]">
-          FC・SFC・GBのソフト価格情報を一覧で確認
+          レトロゲームソフトの価格情報を一覧で確認
         </p>
         <p className="text-sm text-[var(--color-retro-text-dim)] mt-1">
           全{allGames.length}タイトル収録
@@ -535,33 +535,52 @@ export default function HomePageContent() {
       )}
 
       {/* ページネーション */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-8">
-          <button
-            className="pagination-btn"
-            onClick={() => setPage(Math.max(1, page - 1))}
-            disabled={page === 1}
-          >
-            ‹ 前へ
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+      {totalPages > 1 && (() => {
+        const WINDOW = 2;
+        const pages: (number | "...")[] = [];
+        if (totalPages <= 9) {
+          for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+          pages.push(1);
+          if (page - WINDOW > 2) pages.push("...");
+          for (let i = Math.max(2, page - WINDOW); i <= Math.min(totalPages - 1, page + WINDOW); i++) {
+            pages.push(i);
+          }
+          if (page + WINDOW < totalPages - 1) pages.push("...");
+          pages.push(totalPages);
+        }
+        return (
+          <div className="flex justify-center items-center gap-1 mt-8 flex-wrap">
             <button
-              key={p}
-              className={`pagination-btn ${p === page ? "active" : ""}`}
-              onClick={() => setPage(p)}
+              className="pagination-btn"
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
             >
-              {p}
+              ‹ 前へ
             </button>
-          ))}
-          <button
-            className="pagination-btn"
-            onClick={() => setPage(Math.min(totalPages, page + 1))}
-            disabled={page === totalPages}
-          >
-            次へ ›
-          </button>
-        </div>
-      )}
+            {pages.map((p, idx) =>
+              p === "..." ? (
+                <span key={`dots-${idx}`} className="px-2 text-[var(--color-retro-text-dim)]">…</span>
+              ) : (
+                <button
+                  key={p}
+                  className={`pagination-btn ${p === page ? "active" : ""}`}
+                  onClick={() => setPage(p as number)}
+                >
+                  {p}
+                </button>
+              )
+            )}
+            <button
+              className="pagination-btn"
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+            >
+              次へ ›
+            </button>
+          </div>
+        );
+      })()}
     </div>
   );
 }
