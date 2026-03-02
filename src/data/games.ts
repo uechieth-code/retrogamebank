@@ -7,7 +7,8 @@ import { mdGames } from "./md-games";
 import { gbaGames } from "./gba-games";
 import { ndsGames } from "./nds-games";
 import { ssGames } from "./ss-games";
-import { ps1Games, ps2Games } from "./games-expanded";
+import { ps1Games } from "./ps1-games";
+import { ps2Games } from "./ps2-games";
 
 export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames];
 
