@@ -311,7 +311,7 @@ export default function HomePageContent() {
               <label className="block text-sm font-bold text-[var(--color-retro-accent)] mb-2">
                 ジャンル
               </label>
-              <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto">
+              <div className="flex flex-wrap gap-2">
                 {genres.map((g) => (
                   <label
                     key={g}
