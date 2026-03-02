@@ -9,8 +9,9 @@ import { ndsGames } from "./nds-games";
 import { ssGames } from "./ss-games";
 import { ps1Games } from "./ps1-games";
 import { ps2Games } from "./ps2-games";
+import { n3dsGames } from "./3ds-games";
 
-export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames];
+export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames, ...n3dsGames];
 
 export function getGamesByConsole(consoleId: string): Game[] {
   return allGames.filter((g) => g.console_id === consoleId);
