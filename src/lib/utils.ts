@@ -54,5 +54,5 @@ export function generateShopLinks(game: Game, consoleName: string): ShopLink[] {
 }
 
 export const defaultOriginalPrices: Record<string, number> = {
-  fc: 5000, sfc: 9800, gb: 3500, n64: 6800, gc: 6800, gba: 4800, nds: 4800, "3ds": 4800, ps1: 5800, ps2: 6800, md: 6800, ss: 5800, dc: 5800, pce: 6800, psp: 4800, neogeo: 25000,
+  fc: 5000, sfc: 9800, gb: 3500, n64: 6800, gc: 6800, gba: 4800, nds: 4800, "3ds": 4800, ps1: 5800, ps2: 6800, md: 6800, ss: 5800, dc: 5800, pce: 6800, psp: 4800, neogeo: 25000, wii: 5800, ps3: 5980, vita: 4980, gg: 3500, x360: 5980,
 };
