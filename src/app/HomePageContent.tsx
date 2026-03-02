@@ -7,7 +7,7 @@ import { getMvpConsoles, getConsole } from "@/data/consoles";
 import { formatPrice, formatSales, formatDate, premiumRankToStars } from "@/lib/utils";
 import type { SortKey, SortOrder } from "@/types";
 
-const ITEMS_PER_PAGE = 50;
+const PAGE_SIZE_OPTIONS = [50, 100, 200] as const;
 
 export default function HomePageContent() {
   const router = useRouter();
@@ -27,6 +27,7 @@ export default function HomePageContent() {
   const [sortKey, setSortKey] = useState<SortKey>("release_date");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const [showFilters, setShowFilters] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -55,6 +56,7 @@ export default function HomePageContent() {
     setSortKey((sp.get("sortKey") as SortKey) || "release_date");
     setSortOrder((sp.get("sortOrder") as SortOrder) || "desc");
     setPage(Number(sp.get("page") || 1));
+    setPageSize(Number(sp.get("pageSize") || 50));
     setShowFilters(sp.get("showFilters") === "true");
 
     setIsInitialized(true);
@@ -75,6 +77,7 @@ export default function HomePageContent() {
     if (sortKey !== "release_date") params.set("sortKey", sortKey);
     if (sortOrder !== "desc") params.set("sortOrder", sortOrder);
     if (page !== 1) params.set("page", page.toString());
+    if (pageSize !== 50) params.set("pageSize", pageSize.toString());
     if (showFilters) params.set("showFilters", "true");
 
     const queryString = params.toString();
@@ -85,7 +88,7 @@ export default function HomePageContent() {
     try {
       sessionStorage.setItem("retrogamebank_filters", queryString);
     } catch {}
-  }, [search, selectedConsoles, selectedPublisher, selectedGenres, priceMin, priceMax, premiumFilter, sortKey, sortOrder, page, showFilters, isInitialized, router]);
+  }, [search, selectedConsoles, selectedPublisher, selectedGenres, priceMin, priceMax, premiumFilter, sortKey, sortOrder, page, pageSize, showFilters, isInitialized, router]);
 
   // フィルタリングとソート
   const filteredGames = useMemo(() => {
@@ -174,11 +177,21 @@ export default function HomePageContent() {
   }, [search, selectedConsoles, selectedPublisher, selectedGenres, priceMin, priceMax, premiumFilter, sortKey, sortOrder]);
 
   // ページネーション
-  const totalPages = Math.ceil(filteredGames.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredGames.length / pageSize);
   const paginatedGames = filteredGames.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
+    (page - 1) * pageSize,
+    page * pageSize
   );
+
+  // アクティブフィルター数
+  const activeFilterCount = [
+    selectedConsoles.length > 0,
+    selectedPublisher !== "",
+    selectedGenres.length > 0,
+    priceMin !== "",
+    priceMax !== "",
+    premiumFilter > 0,
+  ].filter(Boolean).length;
 
   const toggleConsole = useCallback((id: string) => {
     setSelectedConsoles((prev) =>
@@ -192,6 +205,12 @@ export default function HomePageContent() {
       prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
     );
     setPage(1);
+  }, []);
+
+  // ページ変更時にスクロールトップ
+  const changePage = useCallback((newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleSort = useCallback(
@@ -255,7 +274,49 @@ export default function HomePageContent() {
         className="mb-4 px-4 py-2 rounded-lg border border-[var(--color-retro-border)] bg-[var(--color-retro-card)] text-sm text-[var(--color-retro-text-dim)] hover:border-[var(--color-retro-accent)] hover:text-[var(--color-retro-accent)] transition-colors"
       >
         {showFilters ? "▲ フィルターを閉じる" : "▼ フィルターを開く"}
+        {activeFilterCount > 0 && (
+          <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--color-retro-accent)] text-[var(--color-retro-bg)] text-xs font-bold">
+            {activeFilterCount}
+          </span>
+        )}
       </button>
+
+      {/* アクティブフィルタータグ（フィルター閉じている時） */}
+      {!showFilters && activeFilterCount > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4 items-center">
+          <span className="text-xs text-[var(--color-retro-text-dim)]">適用中:</span>
+          {selectedConsoles.length > 0 && (
+            <span className="tag tag-console text-xs">
+              機種: {selectedConsoles.map((c) => getConsoleShortName(c)).join(", ")}
+              <button className="ml-1 opacity-60 hover:opacity-100" onClick={() => { setSelectedConsoles([]); setPage(1); }}>×</button>
+            </span>
+          )}
+          {selectedPublisher && (
+            <span className="tag tag-genre text-xs">
+              {selectedPublisher}
+              <button className="ml-1 opacity-60 hover:opacity-100" onClick={() => { setSelectedPublisher(""); setPage(1); }}>×</button>
+            </span>
+          )}
+          {selectedGenres.length > 0 && (
+            <span className="tag tag-genre text-xs">
+              {selectedGenres.join(", ")}
+              <button className="ml-1 opacity-60 hover:opacity-100" onClick={() => { setSelectedGenres([]); setPage(1); }}>×</button>
+            </span>
+          )}
+          {(priceMin || priceMax) && (
+            <span className="tag tag-console text-xs">
+              ¥{priceMin || "0"}〜¥{priceMax || "∞"}
+              <button className="ml-1 opacity-60 hover:opacity-100" onClick={() => { setPriceMin(""); setPriceMax(""); setPage(1); }}>×</button>
+            </span>
+          )}
+          {premiumFilter > 0 && (
+            <span className="tag tag-console text-xs">
+              プレミア{premiumFilter}以上
+              <button className="ml-1 opacity-60 hover:opacity-100" onClick={() => { setPremiumFilter(0); setPage(1); }}>×</button>
+            </span>
+          )}
+        </div>
+      )}
 
       {/* フィルターパネル */}
       {showFilters && (
@@ -399,6 +460,7 @@ export default function HomePageContent() {
                 setSortKey("release_date");
                 setSortOrder("desc");
                 setPage(1);
+                setPageSize(50);
               }}
               className="text-sm text-[var(--color-retro-accent2)] hover:underline"
             >
@@ -408,16 +470,96 @@ export default function HomePageContent() {
         </div>
       )}
 
-      {/* 結果件数 */}
-      <div className="flex items-center justify-between mb-4">
+      {/* 結果件数 + 表示件数セレクター */}
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <p className="text-sm text-[var(--color-retro-text-dim)]">
-          {filteredGames.length}件中 {(page - 1) * ITEMS_PER_PAGE + 1}〜
-          {Math.min(page * ITEMS_PER_PAGE, filteredGames.length)}件を表示
+          {filteredGames.length}件中 {filteredGames.length > 0 ? (page - 1) * pageSize + 1 : 0}〜
+          {Math.min(page * pageSize, filteredGames.length)}件を表示
         </p>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-[var(--color-retro-text-dim)]">表示件数:</span>
+          {PAGE_SIZE_OPTIONS.map((size) => (
+            <button
+              key={size}
+              className={`px-2 py-1 text-xs rounded border transition-colors ${
+                pageSize === size
+                  ? "border-[var(--color-retro-accent)] text-[var(--color-retro-accent)] bg-[rgba(0,212,255,0.1)]"
+                  : "border-[var(--color-retro-border)] text-[var(--color-retro-text-dim)] hover:border-[var(--color-retro-accent)]"
+              }`}
+              onClick={() => {
+                setPageSize(size);
+                setPage(1);
+              }}
+            >
+              {size}件
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* ゲーム一覧テーブル */}
-      <div className="overflow-x-auto">
+      {/* モバイルソートセレクター（sm以下で表示） */}
+      <div className="flex gap-2 mb-3 sm:hidden">
+        <select
+          className="retro-select flex-1 text-xs"
+          value={sortKey}
+          onChange={(e) => {
+            setSortKey(e.target.value as SortKey);
+            setPage(1);
+          }}
+        >
+          <option value="release_date">発売日順</option>
+          <option value="title">タイトル順</option>
+          <option value="current_used_price">中古価格順</option>
+          <option value="current_new_price">新品価格順</option>
+          <option value="total_sales">販売本数順</option>
+          <option value="premium_rank">プレミア順</option>
+        </select>
+        <button
+          className="retro-select text-xs px-3"
+          onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
+        >
+          {sortOrder === "asc" ? "↑ 昇順" : "↓ 降順"}
+        </button>
+      </div>
+
+      {/* モバイルカードレイアウト（sm以下で表示） */}
+      <div className="sm:hidden space-y-2">
+        {paginatedGames.map((game) => (
+          <div
+            key={game.id}
+            className="game-card rounded-lg bg-[var(--color-retro-card)] p-3 cursor-pointer"
+            onClick={() => router.push(`/games/${game.console_id}/${game.slug}`)}
+          >
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <span className="font-medium text-sm leading-tight">{game.title}</span>
+              <span className={`whitespace-nowrap text-xs premium-${game.premium_rank}`}>
+                {premiumRankToStars(game.premium_rank)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 flex-wrap text-xs">
+              <span className="tag tag-console">{getConsoleShortName(game.console_id)}</span>
+              {game.genre.slice(0, 2).map((g) => (
+                <span key={g} className="tag tag-genre">{g}</span>
+              ))}
+              <span className="text-[var(--color-retro-text-dim)]">{formatDate(game.release_date)}</span>
+            </div>
+            <div className="flex items-center gap-4 mt-2 text-xs">
+              <span>
+                中古: <span className={game.premium_rank >= 4 ? "text-[var(--color-retro-accent2)] font-bold" : ""}>{formatPrice(game.current_used_price)}</span>
+              </span>
+              <span className="text-[var(--color-retro-text-dim)]">
+                新品: {formatPrice(game.current_new_price)}
+              </span>
+              {game.total_sales !== null && (
+                <span className="text-[var(--color-retro-text-dim)]">{formatSales(game.total_sales)}</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* デスクトップテーブル（sm以上で表示） */}
+      <div className="overflow-x-auto hidden sm:block">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-[var(--color-retro-border)] text-left">
@@ -430,14 +572,14 @@ export default function HomePageContent() {
               <th className="py-3 px-2 whitespace-nowrap">機種</th>
               <th className="py-3 px-2 whitespace-nowrap hidden md:table-cell">メーカー</th>
               <th
-                className="py-3 px-2 cursor-pointer hover:text-[var(--color-retro-accent)] transition-colors whitespace-nowrap hidden sm:table-cell"
+                className="py-3 px-2 cursor-pointer hover:text-[var(--color-retro-accent)] transition-colors whitespace-nowrap"
                 onClick={() => handleSort("release_date")}
               >
                 発売日{sortIndicator("release_date")}
               </th>
               <th className="py-3 px-2 whitespace-nowrap hidden lg:table-cell">ジャンル</th>
               <th
-                className="py-3 px-2 cursor-pointer hover:text-[var(--color-retro-accent)] transition-colors whitespace-nowrap text-right hidden sm:table-cell"
+                className="py-3 px-2 cursor-pointer hover:text-[var(--color-retro-accent)] transition-colors whitespace-nowrap text-right hidden md:table-cell"
                 onClick={() => handleSort("current_new_price")}
               >
                 新品{sortIndicator("current_new_price")}
@@ -482,7 +624,7 @@ export default function HomePageContent() {
                 <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden md:table-cell">
                   {game.publisher}
                 </td>
-                <td className="py-3 px-2 text-[var(--color-retro-text-dim)] hidden sm:table-cell whitespace-nowrap">
+                <td className="py-3 px-2 text-[var(--color-retro-text-dim)] whitespace-nowrap">
                   {formatDate(game.release_date)}
                 </td>
                 <td className="py-3 px-2 hidden lg:table-cell">
@@ -494,7 +636,7 @@ export default function HomePageContent() {
                     ))}
                   </div>
                 </td>
-                <td className="py-3 px-2 text-right hidden sm:table-cell whitespace-nowrap">
+                <td className="py-3 px-2 text-right hidden md:table-cell whitespace-nowrap">
                   {formatPrice(game.current_new_price)}
                 </td>
                 <td className="py-3 px-2 text-right whitespace-nowrap">
@@ -553,7 +695,7 @@ export default function HomePageContent() {
           <div className="flex justify-center items-center gap-1 mt-8 flex-wrap">
             <button
               className="pagination-btn"
-              onClick={() => setPage(Math.max(1, page - 1))}
+              onClick={() => changePage(Math.max(1, page - 1))}
               disabled={page === 1}
             >
               ‹ 前へ
@@ -565,7 +707,7 @@ export default function HomePageContent() {
                 <button
                   key={p}
                   className={`pagination-btn ${p === page ? "active" : ""}`}
-                  onClick={() => setPage(p as number)}
+                  onClick={() => changePage(p as number)}
                 >
                   {p}
                 </button>
@@ -573,7 +715,7 @@ export default function HomePageContent() {
             )}
             <button
               className="pagination-btn"
-              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              onClick={() => changePage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
             >
               次へ ›
