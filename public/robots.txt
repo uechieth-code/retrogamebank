@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /favorites
+Disallow: /compare
+Disallow: /alerts
+
+Sitemap: https://retrogamebank.com/sitemap.xml

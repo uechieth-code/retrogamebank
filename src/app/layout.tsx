@@ -7,8 +7,8 @@ const GA_MEASUREMENT_ID = "G-Y3Y966YP2Z";
 export const metadata: Metadata = {
   title: "レトロゲームバンク - RetroGameBank | レトロゲーム価格情報サイト",
   description:
-    "FC・SFC・GB・GBA・NDS・3DS・MD・SS・PS1・PS2など、レトロゲームソフトの価格情報・販売データ・購入先リンクを一元提供。14000タイトル以上収録。プレミアソフトの価格もチェックできます。",
-  keywords: "レトロゲーム,ファミコン,スーパーファミコン,ゲームボーイ,ニンテンドー3DS,プレイステーション,メガドライブ,セガサターン,中古ゲーム,価格,プレミアソフト",
+    "FC・SFC・GB・N64・GC・Wii・GBA・NDS・3DS・PS1・PS2・PS3・PSP・Vita・MD・SS・DC・PCE・NEOGEO・GG・Xbox360など21機種、15000タイトル以上のレトロゲーム価格情報を収録。中古・新品価格、プレミアランク、販売本数データを一元提供。",
+  keywords: "レトロゲーム,ファミコン,スーパーファミコン,ゲームボーイ,NINTENDO64,ゲームキューブ,Wii,プレイステーション,PS2,PS3,PSP,メガドライブ,セガサターン,ドリームキャスト,PCエンジン,ネオジオ,中古ゲーム,価格,プレミアソフト",
   icons: {
     icon: "/icon.svg",
   },
