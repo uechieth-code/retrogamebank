@@ -45,7 +45,7 @@ export function generateShopLinks(game: Game, consoleName: string): ShopLink[] {
   const query = encodeURIComponent(`${game.title} ${consoleName}`);
   return [
     { shop_name: "Amazon", url: `https://www.amazon.co.jp/s?k=${query}&tag=retrogamebank-22`, color: "#FF9900" },
-    { shop_name: "楽天市場", url: `https://search.rakuten.co.jp/search/mall/${query}/`, color: "#BF0000" },
+    { shop_name: "楽天市場", url: `https://hb.afl.rakuten.co.jp/hgc/515df0a2.2aef5645.515df0a3.1323e0ba/?pc=${encodeURIComponent(`https://search.rakuten.co.jp/search/mall/${query}/`)}&link_type=hybrid_url`, color: "#BF0000" },
     { shop_name: "駿河屋", url: `https://www.suruga-ya.jp/search?category=&search_word=${query}`, color: "#1B4D8E" },
     { shop_name: "メルカリ", url: `https://www.mercari.com/jp/search/?keyword=${query}`, color: "#FF0211" },
     { shop_name: "ヤフオク!", url: `https://auctions.yahoo.co.jp/search/search?p=${query}`, color: "#FF0033" },
