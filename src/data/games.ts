@@ -20,8 +20,11 @@ import { ps3Games } from "./ps3-games";
 import { vitaGames } from "./vita-games";
 import { ggGames } from "./gg-games";
 import { x360Games } from "./x360-games";
+import { wiiuGames } from "./wiiu-games";
+import { xboxGames } from "./xbox-games";
+import { ngpGames } from "./ngp-games";
 
-export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames, ...n3dsGames, ...n64Games, ...gcGames, ...dcGames, ...pceGames, ...pspGames, ...neogeoGames, ...wiiGames, ...ps3Games, ...vitaGames, ...ggGames, ...x360Games];
+export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames, ...n3dsGames, ...n64Games, ...gcGames, ...dcGames, ...pceGames, ...pspGames, ...neogeoGames, ...wiiGames, ...ps3Games, ...vitaGames, ...ggGames, ...x360Games, ...wiiuGames, ...xboxGames, ...ngpGames];
 
 export function getGamesByConsole(consoleId: string): Game[] {
   return allGames.filter((g) => g.console_id === consoleId);
