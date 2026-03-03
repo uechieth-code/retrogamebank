@@ -247,10 +247,10 @@ export default function HomePageContent() {
           レトロゲームソフト一覧
         </h2>
         <p className="text-[var(--color-retro-text-dim)]">
-          レトロゲームソフトの価格情報を一覧で確認
+          ファミコン・スーファミ・PS1・PS2・セガサターンなど24機種のレトロゲーム価格情報
         </p>
         <p className="text-sm text-[var(--color-retro-text-dim)] mt-1">
-          全{allGames.length}タイトル収録
+          全{allGames.length}タイトル収録 ― 中古価格・新品価格・プレミアランクを一覧で比較
         </p>
         <a
           href="/minigame"
@@ -259,6 +259,22 @@ export default function HomePageContent() {
         >
           🎮 ミニゲームで遊ぶ
         </a>
+      </div>
+
+      {/* 機種別クイックリンク */}
+      <div className="mb-6">
+        <h3 className="text-sm font-bold text-[var(--color-retro-text-dim)] mb-2">機種別ゲーム一覧</h3>
+        <div className="flex flex-wrap gap-2">
+          {consoles.map((c) => (
+            <a
+              key={c.id}
+              href={`/games/${c.id}`}
+              className="tag tag-console text-xs hover:opacity-80 transition-opacity"
+            >
+              {c.short_name}
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* 検索バー */}

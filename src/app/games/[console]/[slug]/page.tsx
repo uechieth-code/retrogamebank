@@ -105,6 +105,28 @@ function GameJsonLd({ consoleId, slug }: { consoleId: string; slug: string }) {
   );
 }
 
+function BreadcrumbJsonLd({ consoleId, slug }: { consoleId: string; slug: string }) {
+  const game = allGames.find((g) => g.console_id === consoleId && g.slug === slug);
+  const consoleDef = getConsole(consoleId);
+  if (!game || !consoleDef) return null;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: "https://retrogamebank.com" },
+      { "@type": "ListItem", position: 2, name: `${consoleDef.name}ソフト一覧`, item: `https://retrogamebank.com/games/${consoleId}` },
+      { "@type": "ListItem", position: 3, name: game.title },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export default async function GameDetailPage({
   params,
 }: {
@@ -114,6 +136,7 @@ export default async function GameDetailPage({
   return (
     <>
       <GameJsonLd consoleId={consoleId} slug={slug} />
+      <BreadcrumbJsonLd consoleId={consoleId} slug={slug} />
       <GameDetailClient paramsPromise={params} />
     </>
   );

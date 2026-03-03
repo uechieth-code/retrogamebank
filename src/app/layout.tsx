@@ -96,10 +96,10 @@ export default function RootLayout({
                 機種別
               </a>
               <a
-                href="/privacy"
+                href="/minigame"
                 className="text-[var(--color-retro-text-dim)] hover:text-[var(--color-retro-accent)] transition-colors"
               >
-                プライバシーポリシー
+                ミニゲーム
               </a>
             </nav>
           </div>
@@ -122,13 +122,36 @@ export default function RootLayout({
                 </p>
               </div>
               <div className="flex gap-6 text-sm text-[var(--color-retro-text-dim)]">
-                <a
-                  href="/privacy"
-                  className="hover:text-[var(--color-retro-accent)] transition-colors"
-                >
-                  プライバシーポリシー
-                </a>
+                <a href="/ranking" className="hover:text-[var(--color-retro-accent)] transition-colors">ランキング</a>
+                <a href="/minigame" className="hover:text-[var(--color-retro-accent)] transition-colors">ミニゲーム</a>
+                <a href="/privacy" className="hover:text-[var(--color-retro-accent)] transition-colors">プライバシーポリシー</a>
               </div>
+            </div>
+            <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-[var(--color-retro-text-dim)]">
+              <a href="/games/fc" className="hover:text-[var(--color-retro-accent)]">FC</a>
+              <a href="/games/sfc" className="hover:text-[var(--color-retro-accent)]">SFC</a>
+              <a href="/games/gb" className="hover:text-[var(--color-retro-accent)]">GB</a>
+              <a href="/games/gba" className="hover:text-[var(--color-retro-accent)]">GBA</a>
+              <a href="/games/nds" className="hover:text-[var(--color-retro-accent)]">NDS</a>
+              <a href="/games/3ds" className="hover:text-[var(--color-retro-accent)]">3DS</a>
+              <a href="/games/n64" className="hover:text-[var(--color-retro-accent)]">N64</a>
+              <a href="/games/gc" className="hover:text-[var(--color-retro-accent)]">GC</a>
+              <a href="/games/wii" className="hover:text-[var(--color-retro-accent)]">Wii</a>
+              <a href="/games/wiiu" className="hover:text-[var(--color-retro-accent)]">WiiU</a>
+              <a href="/games/ps1" className="hover:text-[var(--color-retro-accent)]">PS1</a>
+              <a href="/games/ps2" className="hover:text-[var(--color-retro-accent)]">PS2</a>
+              <a href="/games/ps3" className="hover:text-[var(--color-retro-accent)]">PS3</a>
+              <a href="/games/psp" className="hover:text-[var(--color-retro-accent)]">PSP</a>
+              <a href="/games/vita" className="hover:text-[var(--color-retro-accent)]">Vita</a>
+              <a href="/games/md" className="hover:text-[var(--color-retro-accent)]">MD</a>
+              <a href="/games/ss" className="hover:text-[var(--color-retro-accent)]">SS</a>
+              <a href="/games/dc" className="hover:text-[var(--color-retro-accent)]">DC</a>
+              <a href="/games/pce" className="hover:text-[var(--color-retro-accent)]">PCE</a>
+              <a href="/games/neogeo" className="hover:text-[var(--color-retro-accent)]">NEOGEO</a>
+              <a href="/games/gg" className="hover:text-[var(--color-retro-accent)]">GG</a>
+              <a href="/games/x360" className="hover:text-[var(--color-retro-accent)]">X360</a>
+              <a href="/games/xbox" className="hover:text-[var(--color-retro-accent)]">Xbox</a>
+              <a href="/games/ngp" className="hover:text-[var(--color-retro-accent)]">NGP</a>
             </div>
             <div className="mt-6 pt-4 border-t border-[var(--color-retro-border)] text-center">
               <p className="text-xs text-[var(--color-retro-text-dim)]">
