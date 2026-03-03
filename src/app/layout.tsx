@@ -90,6 +90,12 @@ export default function RootLayout({
                 ランキング
               </a>
               <a
+                href="/games/fc"
+                className="text-[var(--color-retro-text-dim)] hover:text-[var(--color-retro-accent)] transition-colors"
+              >
+                機種別
+              </a>
+              <a
                 href="/privacy"
                 className="text-[var(--color-retro-text-dim)] hover:text-[var(--color-retro-accent)] transition-colors"
               >
