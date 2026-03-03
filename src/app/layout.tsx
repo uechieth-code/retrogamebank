@@ -64,6 +64,12 @@ export default function RootLayout({
                 ソフト一覧
               </a>
               <a
+                href="/ranking"
+                className="text-[var(--color-retro-text-dim)] hover:text-[var(--color-retro-accent)] transition-colors"
+              >
+                ランキング
+              </a>
+              <a
                 href="/privacy"
                 className="text-[var(--color-retro-text-dim)] hover:text-[var(--color-retro-accent)] transition-colors"
               >
