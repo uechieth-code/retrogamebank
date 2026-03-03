@@ -5,6 +5,29 @@ import { join } from "path";
 const BASE_URL = "https://retrogamebank.com";
 const OUT_DIR = join(process.cwd(), "out");
 
+/**
+ * パスの各セグメントをURLエンコードする
+ * 例: /games/fc/ドンキーコング → /games/fc/%E3%83%89%E3%83%B3%E3%82%AD...
+ */
+function encodePathSegments(path) {
+  return path
+    .split("/")
+    .map((segment) => (segment === "" ? "" : encodeURIComponent(segment)))
+    .join("/");
+}
+
+/**
+ * XML特殊文字をエスケープする
+ */
+function escapeXml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 async function getGamePaths() {
   const gamesDir = join(OUT_DIR, "games");
   const paths = [];
@@ -51,20 +74,24 @@ async function main() {
     { url: "/minigame", priority: "0.7", freq: "monthly" },
     { url: "/terms", priority: "0.3", freq: "yearly" },
     { url: "/privacy", priority: "0.3", freq: "yearly" },
+    { url: "/contact", priority: "0.3", freq: "yearly" },
   ];
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
   for (const p of staticPages) {
-    xml += `  <url><loc>${BASE_URL}${p.url}</loc><lastmod>${today}</lastmod><changefreq>${p.freq}</changefreq><priority>${p.priority}</priority></url>\n`;
+    const encodedUrl = escapeXml(`${BASE_URL}${encodePathSegments(p.url)}`);
+    xml += `  <url><loc>${encodedUrl}</loc><lastmod>${today}</lastmod><changefreq>${p.freq}</changefreq><priority>${p.priority}</priority></url>\n`;
   }
 
   for (const path of rankingPaths) {
-    xml += `  <url><loc>${BASE_URL}${path}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+    const encodedUrl = escapeXml(`${BASE_URL}${encodePathSegments(path)}`);
+    xml += `  <url><loc>${encodedUrl}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
   }
 
   for (const path of gamePaths) {
-    xml += `  <url><loc>${BASE_URL}${path}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
+    const encodedUrl = escapeXml(`${BASE_URL}${encodePathSegments(path)}`);
+    xml += `  <url><loc>${encodedUrl}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
   }
 
   xml += `</urlset>\n`;
