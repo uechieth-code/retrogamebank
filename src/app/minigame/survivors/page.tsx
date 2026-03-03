@@ -50,6 +50,104 @@ const COL_ACCENT = "#00d4ff";
 const COL_YELLOW = "#ffd700";
 
 // ============================================================
+// Audio System (Web Audio API chiptune synthesis)
+// ============================================================
+class ChipAudio {
+  private ctx: AudioContext | null = null;
+  private masterGain: GainNode | null = null;
+  private bgmOsc: OscillatorNode | null = null;
+  private bgmGain: GainNode | null = null;
+  private bgmPlaying = false;
+  private muted = false;
+
+  init() {
+    if (this.ctx) return;
+    try {
+      this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.masterGain = this.ctx.createGain();
+      this.masterGain.gain.value = 0.3;
+      this.masterGain.connect(this.ctx.destination);
+    } catch {}
+  }
+
+  setMuted(m: boolean) { this.muted = m; if (this.masterGain) this.masterGain.gain.value = m ? 0 : 0.3; }
+  isMuted() { return this.muted; }
+
+  private playTone(freq: number, duration: number, type: OscillatorType = "square", vol: number = 0.15) {
+    if (!this.ctx || !this.masterGain || this.muted) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(this.ctx.currentTime);
+    osc.stop(this.ctx.currentTime + duration);
+  }
+
+  playShoot() { this.playTone(880, 0.08, "square", 0.08); }
+  playHit() { this.playTone(220, 0.15, "sawtooth", 0.1); }
+  playKill() { this.playTone(660, 0.1, "square", 0.1); this.playTone(880, 0.1, "square", 0.08); }
+  playLevelUp() {
+    if (!this.ctx || this.muted) return;
+    [523, 659, 784, 1047].forEach((f, i) => {
+      setTimeout(() => this.playTone(f, 0.15, "square", 0.12), i * 80);
+    });
+  }
+  playDamage() { this.playTone(150, 0.2, "sawtooth", 0.15); }
+  playGameOver() {
+    if (!this.ctx || this.muted) return;
+    [400, 350, 300, 200].forEach((f, i) => {
+      setTimeout(() => this.playTone(f, 0.3, "square", 0.12), i * 150);
+    });
+  }
+  playBossAlert() {
+    if (!this.ctx || this.muted) return;
+    [200, 250, 200, 250, 300].forEach((f, i) => {
+      setTimeout(() => this.playTone(f, 0.12, "square", 0.1), i * 100);
+    });
+  }
+  playXpCollect() { this.playTone(1200, 0.05, "sine", 0.06); }
+
+  startBGM() {
+    if (!this.ctx || !this.masterGain || this.bgmPlaying) return;
+    this.bgmPlaying = true;
+    const playLoop = () => {
+      if (!this.bgmPlaying || !this.ctx || !this.masterGain) return;
+      const notes = [262, 330, 392, 330, 262, 392, 330, 440, 392, 330, 262, 330, 392, 523, 440, 392];
+      notes.forEach((freq, i) => {
+        if (!this.ctx || !this.masterGain) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = "square";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime + i * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.2 + 0.18);
+        osc.connect(gain);
+        gain.connect(this.masterGain!);
+        osc.start(this.ctx.currentTime + i * 0.2);
+        osc.stop(this.ctx.currentTime + i * 0.2 + 0.2);
+      });
+      if (this.bgmPlaying) {
+        setTimeout(playLoop, notes.length * 200);
+      }
+    };
+    playLoop();
+  }
+
+  stopBGM() { this.bgmPlaying = false; }
+
+  destroy() {
+    this.stopBGM();
+    if (this.ctx) { this.ctx.close().catch(() => {}); this.ctx = null; }
+  }
+}
+
+const chipAudio = new ChipAudio();
+
+// ============================================================
 // Types
 // ============================================================
 type WeaponId = "plasma" | "laser" | "boomerang" | "burst" | "homing" | "flame";
@@ -254,6 +352,8 @@ export default function SurvivorsGame() {
       speedBoostCount: 0, maxHpBoostCount: 0, xpMagnetCount: 0,
     };
 
+    chipAudio.init();
+    chipAudio.startBGM();
     setScreen("playing");
   }, []);
 
@@ -374,6 +474,7 @@ export default function SurvivorsGame() {
           damage: Math.ceil(PLASMA_DAMAGE * dmgMulti), size: BULLET_SIZE * sizeMulti,
           weaponId: "plasma", pierce: 0, lifetime: 2, age: 0,
         });
+        chipAudio.playShoot();
       }
     }
 
@@ -663,6 +764,7 @@ export default function SurvivorsGame() {
       g.bossTimers.knight = 30;
       spawnBoss(g, "knight_wolf", g.bossSpawnCounts.knight);
       g.bossSpawnCounts.knight++;
+      chipAudio.playBossAlert();
     }
     // Dragon (mid boss) - after 90s
     if (g.elapsed >= 90) {
@@ -746,6 +848,7 @@ export default function SurvivorsGame() {
         p.hp -= e.damage;
         p.invTimer = INVINCIBLE_TIME;
         spawnParticles(g, p.x, p.y, "#ff0000", 5);
+        chipAudio.playDamage();
         if (p.hp <= 0) { gameOver(g); return; }
       }
 
@@ -782,6 +885,7 @@ export default function SurvivorsGame() {
           if (e.hp <= 0) {
             p.score += e.score;
             p.killCount++;
+            chipAudio.playKill();
             spawnParticles(g, e.x, e.y, ENEMY_COLORS[e.type], 6);
             // Drop XP gems
             const gemCount = e.type === "golem" ? 3 : 1;
@@ -850,6 +954,7 @@ export default function SurvivorsGame() {
         p.hp -= b.damage;
         p.invTimer = INVINCIBLE_TIME;
         spawnParticles(g, p.x, p.y, "#ff0000", 8);
+        chipAudio.playDamage();
         if (p.hp <= 0) { gameOver(g); return; }
       }
 
@@ -886,6 +991,7 @@ export default function SurvivorsGame() {
             p.score += b.score * 2; // Boss kill bonus
             p.killCount++;
             p.bossKillCount++;
+            chipAudio.playKill();
             spawnParticles(g, b.x, b.y, BOSS_COLORS[b.type], 15);
             // Big XP drop
             const gemCount = b.type === "death_knight" ? 20 : b.type === "dragon" ? 10 : 5;
@@ -925,11 +1031,13 @@ export default function SurvivorsGame() {
       if (d < PLAYER_SIZE) {
         p.xp += gem.value;
         g.xpGems.splice(i, 1);
+        chipAudio.playXpCollect();
         // Check level up
         if (p.xp >= p.xpToNext) {
           p.xp -= p.xpToNext;
           p.level++;
           p.xpToNext = BASE_XP + p.level * XP_PER_LEVEL;
+          chipAudio.playLevelUp();
           // Show level up modal
           g.upgradeOptions = generateUpgradeOptions(g);
           if (g.upgradeOptions.length > 0) {
@@ -965,6 +1073,8 @@ export default function SurvivorsGame() {
     const timeBonus = Math.floor(g.elapsed) * 10;
     p.score += timeBonus;
     g.screen = "gameover";
+    chipAudio.stopBGM();
+    chipAudio.playGameOver();
     setScreen("gameover");
     setFinalScore(p.score);
     setFinalTime(g.elapsed);
@@ -1939,6 +2049,7 @@ export default function SurvivorsGame() {
 
     return () => {
       running = false;
+      chipAudio.destroy();
       if (gameRef.current) cancelAnimationFrame(gameRef.current.animFrame);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
@@ -2096,8 +2207,29 @@ export default function SurvivorsGame() {
           )}
         </div>
 
+        <div style={{ marginTop: "12px", textAlign: "right" }}>
+          <button
+            onClick={() => {
+              chipAudio.init();
+              chipAudio.setMuted(!chipAudio.isMuted());
+            }}
+            style={{
+              background: "none",
+              border: "1px solid #444",
+              color: "#888",
+              padding: "6px 12px",
+              fontSize: "12px",
+              fontFamily: "monospace",
+              cursor: "pointer",
+              borderRadius: "4px",
+            }}
+          >
+            {chipAudio.isMuted() ? "🔇 ミュート中" : "🔊 サウンドON"}
+          </button>
+        </div>
+
         <div style={{
-          marginTop: "20px",
+          marginTop: "12px",
           fontSize: "12px",
           color: "#555",
           lineHeight: "1.8",

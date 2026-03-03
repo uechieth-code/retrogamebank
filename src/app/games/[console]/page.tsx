@@ -43,10 +43,78 @@ export async function generateMetadata({
   };
 }
 
-export default function ConsoleGameListPage({
+function ConsoleJsonLd({ consoleId }: { consoleId: string }) {
+  const consoleDef = getConsole(consoleId);
+  const games = getGamesByConsole(consoleId);
+  if (!consoleDef) return null;
+
+  const fullName = consoleDef.name;
+  const consoleName = consoleDef.short_name;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${fullName}（${consoleName}）ソフト一覧`,
+    description: `${fullName}の全${games.length}タイトルの中古価格・プレミア情報`,
+    url: `https://retrogamebank.com/games/${consoleId}`,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "レトロゲームバンク",
+      url: "https://retrogamebank.com",
+    },
+    numberOfItems: games.length,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: games.length,
+      itemListElement: games.slice(0, 10).map((game, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://retrogamebank.com/games/${consoleId}/${game.slug}`,
+        name: game.title,
+      })),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+function ConsoleBreadcrumbJsonLd({ consoleId }: { consoleId: string }) {
+  const consoleDef = getConsole(consoleId);
+  if (!consoleDef) return null;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: "https://retrogamebank.com" },
+      { "@type": "ListItem", position: 2, name: `${consoleDef.name}ソフト一覧` },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export default async function ConsoleGameListPage({
   params,
 }: {
   params: Promise<{ console: string }>;
 }) {
-  return <ConsoleGameListClient paramsPromise={params} />;
+  const { console: consoleId } = await params;
+  return (
+    <>
+      <ConsoleJsonLd consoleId={consoleId} />
+      <ConsoleBreadcrumbJsonLd consoleId={consoleId} />
+      <ConsoleGameListClient paramsPromise={params} />
+    </>
+  );
 }

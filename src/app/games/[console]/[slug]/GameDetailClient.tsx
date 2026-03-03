@@ -154,6 +154,46 @@ export default function GameDetailClient({
                 {isFavorite ? "★" : "☆"}
               </button>
             </div>
+            {/* SNSシェアボタン */}
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-xs text-[var(--color-retro-text-dim)]">共有:</span>
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${game.title}（${consoleInfo.short_name}）の価格情報 | レトロゲームバンク`)}&url=${encodeURIComponent(`https://retrogamebank.com/games/${consoleId}/${slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--color-retro-card)] border border-[var(--color-retro-border)] text-[var(--color-retro-text-dim)] hover:border-[var(--color-retro-accent)] hover:text-[var(--color-retro-accent)] transition-colors text-xs"
+                title="Xでシェア"
+              >
+                X
+              </a>
+              <a
+                href={`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(`https://retrogamebank.com/games/${consoleId}/${slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--color-retro-card)] border border-[var(--color-retro-border)] text-[#06C755] hover:border-[#06C755] transition-colors text-xs font-bold"
+                title="LINEでシェア"
+              >
+                L
+              </a>
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: `${game.title}（${consoleInfo.short_name}）`,
+                      url: `https://retrogamebank.com/games/${consoleId}/${slug}`,
+                    }).catch(() => {});
+                  } else {
+                    navigator.clipboard.writeText(`https://retrogamebank.com/games/${consoleId}/${slug}`).then(() => {
+                      alert("URLをコピーしました");
+                    }).catch(() => {});
+                  }
+                }}
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--color-retro-card)] border border-[var(--color-retro-border)] text-[var(--color-retro-text-dim)] hover:border-[var(--color-retro-accent)] hover:text-[var(--color-retro-accent)] transition-colors text-xs"
+                title="URLをコピー"
+              >
+                🔗
+              </button>
+            </div>
           </div>
 
           {/* 基本情報テーブル */}
