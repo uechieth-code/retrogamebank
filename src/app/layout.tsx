@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 
-const GA_MEASUREMENT_ID = "G-Y3Y966YP2Z";
+const GA_MEASUREMENT_ID = "G-Y3Y966YP2Z2";
 
 export const metadata: Metadata = {
   title: {
