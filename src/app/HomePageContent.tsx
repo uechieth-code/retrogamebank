@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { allGames, getAllPublishers, getAllGenres } from "@/data/games";
 import { getMvpConsoles, getConsole } from "@/data/consoles";
-import { formatPrice, formatSales, formatDate, premiumRankToStars } from "@/lib/utils";
+import { formatPrice, formatSales, formatDate, premiumRankToStars, generateShopLinks } from "@/lib/utils";
 import type { SortKey, SortOrder } from "@/types";
 
 const PAGE_SIZE_OPTIONS = [50, 100, 200] as const;
@@ -609,6 +609,7 @@ export default function HomePageContent() {
               >
                 プレミア{sortIndicator("premium_rank")}
               </th>
+              <th className="py-3 px-2 whitespace-nowrap hidden lg:table-cell text-center">購入</th>
             </tr>
           </thead>
           <tbody>
@@ -664,6 +665,16 @@ export default function HomePageContent() {
                 </td>
                 <td className={`py-3 px-2 whitespace-nowrap premium-${game.premium_rank}`}>
                   {premiumRankToStars(game.premium_rank)}
+                </td>
+                <td className="py-3 px-2 hidden lg:table-cell text-center" onClick={(e) => e.stopPropagation()}>
+                  {(() => {
+                    const consoleName = getConsole(game.console_id)?.short_name ?? "";
+                    const links = generateShopLinks(game, consoleName);
+                    const amazon = links.find(l => l.shop_name === "Amazon");
+                    return amazon ? (
+                      <a href={amazon.url} target="_blank" rel="noopener noreferrer" className="inline-block px-2 py-1 rounded text-xs font-bold text-white hover:opacity-80 transition-opacity" style={{ backgroundColor: "#FF9900" }}>Amazon</a>
+                    ) : null;
+                  })()}
                 </td>
               </tr>
             ))}

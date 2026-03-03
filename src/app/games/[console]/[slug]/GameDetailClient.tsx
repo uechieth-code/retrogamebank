@@ -235,25 +235,41 @@ export default function GameDetailClient({
           </div>
 
           {/* ショップリンク */}
-          <div className="bg-[var(--color-retro-card)] border border-[var(--color-retro-border)] rounded-xl p-6 mb-6">
-            <h2 className="text-lg font-bold text-[var(--color-retro-accent)] mb-4">購入先を探す</h2>
-            <div className="space-y-3">
-              {shopLinks.map((link) => (
+          <div className="bg-[var(--color-retro-card)] border-2 border-[var(--color-retro-accent)] rounded-xl p-6 mb-6">
+            <h2 className="text-lg font-bold text-[var(--color-retro-accent)] mb-2">このソフトを購入する</h2>
+            <p className="text-xs text-[var(--color-retro-text-dim)] mb-4">
+              各ショップの検索結果ページに遷移します
+            </p>
+            {/* メインショップ（Amazon・楽天） */}
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              {shopLinks.filter(l => l.shop_name === "Amazon" || l.shop_name === "楽天市場").map((link) => (
                 <a
                   key={link.shop_name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shop-btn w-full justify-center text-sm"
+                  className="block text-center py-3 px-2 rounded-lg text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                  style={{ backgroundColor: link.color }}
+                >
+                  {link.shop_name}
+                </a>
+              ))}
+            </div>
+            {/* サブショップ */}
+            <div className="space-y-2">
+              {shopLinks.filter(l => l.shop_name !== "Amazon" && l.shop_name !== "楽天市場").map((link) => (
+                <a
+                  key={link.shop_name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center py-2 px-2 rounded-lg text-white text-xs hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: link.color }}
                 >
                   {link.shop_name}で探す →
                 </a>
               ))}
             </div>
-            <p className="text-xs text-[var(--color-retro-text-dim)] mt-3">
-              ※各ショップの検索結果ページに遷移します
-            </p>
           </div>
         </div>
       </div>
