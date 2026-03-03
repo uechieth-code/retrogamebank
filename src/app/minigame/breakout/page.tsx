@@ -5,7 +5,7 @@ import Leaderboard from "../components/Leaderboard";
 
 const CANVAS_WIDTH = 480;
 const CANVAS_HEIGHT = 400;
-const PADDLE_WIDTH = 80;
+const PADDLE_WIDTH = 100;
 const PADDLE_HEIGHT = 12;
 const BALL_SIZE = 8;
 const BRICK_WIDTH = 52;
@@ -263,7 +263,7 @@ export default function BreakoutGame() {
     balls: [],
     bricks: createBricks(1),
     score: 0,
-    lives: 3,
+    lives: 5,
     level: 1,
     gameOver: false,
     gameWon: false,
@@ -329,7 +329,7 @@ export default function BreakoutGame() {
         if (!gameState.ballLaunched && !gameState.gameOver && !gameState.gameWon) {
           gameState.ballLaunched = true;
           gameState.ball.vx = (Math.random() - 0.5) * 4;
-          gameState.ball.vy = -6;
+          gameState.ball.vy = -5;
           gameState.hasStarted = true;
         }
       }
@@ -362,7 +362,7 @@ export default function BreakoutGame() {
       if (!gameState.ballLaunched && !gameState.gameOver && !gameState.gameWon) {
         gameState.ballLaunched = true;
         gameState.ball.vx = (Math.random() - 0.5) * 4;
-        gameState.ball.vy = -6;
+        gameState.ball.vy = -5;
         gameState.hasStarted = true;
       }
     };
@@ -613,7 +613,7 @@ export default function BreakoutGame() {
       balls: [],
       bricks: createBricks(1),
       score: 0,
-      lives: 3,
+      lives: 5,
       level: 1,
       gameOver: false,
       gameWon: false,
@@ -665,7 +665,7 @@ export default function BreakoutGame() {
             color: "var(--color-retro-accent)",
           }}
         >
-          ブレイク アウト
+          BLOCK CRUSH
         </h1>
       </div>
 

@@ -80,7 +80,7 @@ export default function PuyoGame() {
     gameOver: false,
     hasStarted: false,
     dropTimer: 0,
-    dropRate: 30,
+    dropRate: 42,
     popAnimations: [],
     chainEffects: [],
     ghostY: 0,
@@ -657,7 +657,7 @@ export default function PuyoGame() {
         gameOver: false,
         hasStarted: false,
         dropTimer: 0,
-        dropRate: 30,
+        dropRate: 42,
         popAnimations: [],
         chainEffects: [],
         ghostY: 0,
@@ -681,7 +681,7 @@ export default function PuyoGame() {
     <main className="min-h-screen bg-black p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 text-yellow-400" style={{ textShadow: "2px 2px 0 #666" }}>
-          PUYO PUYO
+          COLOR CHAIN
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-8 justify-center">

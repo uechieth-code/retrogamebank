@@ -6,11 +6,11 @@ import Leaderboard from "../components/Leaderboard";
 const CANVAS_WIDTH = 480;
 const CANVAS_HEIGHT = 400;
 const BIRD_SIZE = 16;
-const GRAVITY = 0.5;
-const FLAP_STRENGTH = -12;
+const GRAVITY = 0.35;
+const FLAP_STRENGTH = -8;
 const PIPE_WIDTH = 60;
-const INITIAL_GAP = 120;
-const PIPE_SPEED_START = 4;
+const INITIAL_GAP = 160;
+const PIPE_SPEED_START = 3;
 
 interface GameState {
   birdY: number;
@@ -431,10 +431,10 @@ export default function FlappyGame() {
                 const newScore = prev.score + 1;
                 // Increase difficulty every 10 pipes
                 const newPipeSpeed =
-                  PIPE_SPEED_START + Math.floor(newScore / 10) * 0.5;
+                  PIPE_SPEED_START + Math.floor(newScore / 10) * 0.3;
                 const newMinGap = Math.max(
-                  INITIAL_GAP - Math.floor(newScore / 15) * 5,
-                  90
+                  INITIAL_GAP - Math.floor(newScore / 20) * 3,
+                  130
                 );
 
                 // Add score popup
@@ -570,7 +570,7 @@ export default function FlappyGame() {
       ctx.fillStyle = "#ffffff";
       ctx.font = "bold 32px Arial";
       ctx.textAlign = "center";
-      ctx.fillText("FLAPPY BIRD", CANVAS_WIDTH / 2, 150);
+      ctx.fillText("PATAPATA BIRD", CANVAS_WIDTH / 2, 150);
 
       ctx.font = "20px Arial";
       ctx.fillText("TAP TO START", CANVAS_WIDTH / 2, 250);

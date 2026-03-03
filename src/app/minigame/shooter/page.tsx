@@ -274,7 +274,7 @@ export default function ShooterGame() {
     wave: 1,
     gameOver: false,
     level: 1,
-    enemySpawnRate: 0.02,
+    enemySpawnRate: 0.012,
     waveTransition: 0,
     screenShake: 0,
     lastWaveAnnounce: 0,
@@ -607,7 +607,7 @@ export default function ShooterGame() {
 
         // Enemy shooting
         enemy.shootTimer++;
-        if (enemy.type === "strong" && enemy.shootTimer > 80) {
+        if (enemy.type === "strong" && enemy.shootTimer > 120) {
           state.enemyBullets.push({
             x: enemy.x + enemy.width / 2,
             y: enemy.y + enemy.height,
@@ -615,7 +615,7 @@ export default function ShooterGame() {
             vy: 2,
           });
           enemy.shootTimer = 0;
-        } else if (enemy.type === "boss" && enemy.shootTimer > 40) {
+        } else if (enemy.type === "boss" && enemy.shootTimer > 60) {
           // Boss shoots in spread pattern
           for (let i = -1; i <= 1; i++) {
             state.enemyBullets.push({
@@ -832,7 +832,7 @@ export default function ShooterGame() {
       wave: 1,
       gameOver: false,
       level: 1,
-      enemySpawnRate: 0.02,
+      enemySpawnRate: 0.012,
       waveTransition: 0,
       screenShake: 0,
       lastWaveAnnounce: 0,
@@ -1006,7 +1006,7 @@ export default function ShooterGame() {
             textAlign: "center",
           }}
         >
-          スペース シューター
+          スターブラスト
         </h1>
 
         {/* Game Canvas */}

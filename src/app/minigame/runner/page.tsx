@@ -6,8 +6,8 @@ import Leaderboard from "../components/Leaderboard";
 const CANVAS_WIDTH = 480;
 const CANVAS_HEIGHT = 320;
 const PLAYER_SIZE = 24;
-const GRAVITY = 0.7;
-const JUMP_MIN = -10;
+const GRAVITY = 0.6;
+const JUMP_MIN = -11;
 const JUMP_MAX = -16;
 const GROUND_HEIGHT = 40;
 const PIXEL_SCALE = 2;
@@ -357,8 +357,8 @@ export default function RunnerGame() {
     isJumping: false,
     score: 0,
     gameOver: false,
-    obstacleSpeed: 6,
-    obstacleSpawnRate: 0.02,
+    obstacleSpeed: 4,
+    obstacleSpawnRate: 0.012,
     hasStarted: false,
     frameCount: 0,
     cameraShake: 0,
@@ -533,13 +533,13 @@ export default function RunnerGame() {
 
       // Difficulty ramp
       if (state.score > 0 && Math.floor(state.score) % 1000 === 0) {
-        state.obstacleSpeed += 0.5;
-        state.obstacleSpawnRate += 0.003;
+        state.obstacleSpeed += 0.3;
+        state.obstacleSpawnRate += 0.002;
       }
 
       // Spawn obstacles
       lastSpawnRef.current++;
-      if (Math.random() < state.obstacleSpawnRate && lastSpawnRef.current > 30) {
+      if (Math.random() < state.obstacleSpawnRate && lastSpawnRef.current > 45) {
         const typeRoll = Math.random();
         const type: "box" | "spike" | "tall" = typeRoll > 0.6 ? "spike" : typeRoll > 0.3 ? "tall" : "box";
         
@@ -605,8 +605,8 @@ export default function RunnerGame() {
       isJumping: false,
       score: 0,
       gameOver: false,
-      obstacleSpeed: 6,
-      obstacleSpawnRate: 0.02,
+      obstacleSpeed: 4,
+      obstacleSpawnRate: 0.012,
       hasStarted: false,
       frameCount: 0,
       cameraShake: 0,
@@ -786,7 +786,7 @@ export default function RunnerGame() {
             textAlign: "center",
           }}
         >
-          ENDLESS RUNNER
+          PIXEL DASH
         </h1>
 
         {/* Game Canvas */}

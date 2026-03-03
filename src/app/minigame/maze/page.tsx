@@ -69,7 +69,7 @@ const MazeGame: React.FC = () => {
   const [gameState, setGameState] = useState<'start' | 'playing' | 'gameover' | 'levelclear'>('start');
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(5);
   const [maze, setMaze] = useState<string[][]>([]);
   const [dotsRemaining, setDotsRemaining] = useState(0);
   const [dotsEaten, setDotsEaten] = useState(0);
@@ -86,7 +86,7 @@ const MazeGame: React.FC = () => {
     gameState: 'start' as 'start' | 'playing' | 'gameover' | 'levelclear',
     level: 1,
     score: 0,
-    lives: 3,
+    lives: 5,
     frameCount: 0,
     vulnerable: false,
     vulnerableTimer: 0,
@@ -135,13 +135,13 @@ const MazeGame: React.FC = () => {
     gameRef.current.player = { x: 1, y: 1 };
     gameRef.current.playerDirection = 0;
     gameRef.current.nextDirection = 0;
-    gameRef.current.lives = 3;
+    gameRef.current.lives = 5;
     gameRef.current.vulnerable = false;
     gameRef.current.vulnerableTimer = 0;
     gameRef.current.ghostEatCombo = 0;
     gameRef.current.levelStartTime = Date.now();
 
-    const ghostSpeed = 1 + Math.floor((lvl - 1) * 0.15);
+    const ghostSpeed = 1 + Math.floor((lvl - 1) * 0.1);
 
     gameRef.current.ghosts = [
       {
@@ -292,19 +292,19 @@ const MazeGame: React.FC = () => {
       gameRef.current.score += 50;
       setScore(gameRef.current.score);
       gameRef.current.vulnerable = true;
-      gameRef.current.vulnerableTimer = 480; // 8 seconds at 60fps
+      gameRef.current.vulnerableTimer = 720; // 12 seconds at 60fps (50% longer)
       gameRef.current.ghostEatCombo = 0;
       gameRef.current.ghosts.forEach((g) => {
         g.vulnerable = true;
-        g.vulnerableTime = 480;
+        g.vulnerableTime = 720;
       });
     }
 
     // Check for fruit spawn (at 70 dots eaten)
     // Fruit logic simplified for this implementation
 
-    // Update ghost AI and movement (every 2 frames for slower movement)
-    if (gameRef.current.frameCount % 2 === 0) {
+    // Update ghost AI and movement (every 3 frames for slower movement)
+    if (gameRef.current.frameCount % 3 === 0) {
       gameRef.current.ghosts.forEach((ghost) => {
         const [targetX, targetY] = getGhostTarget(ghost.id, gameRef.current.player.x, gameRef.current.player.y);
 
@@ -542,7 +542,7 @@ const MazeGame: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
       <div className="w-full max-w-md">
-        <h1 className="text-4xl font-bold text-yellow-400 text-center mb-4">PAC-MAZE</h1>
+        <h1 className="text-4xl font-bold text-yellow-400 text-center mb-4">DOT EATER</h1>
 
         <div className="relative bg-black border-4 border-purple-600" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
           <canvas
@@ -591,7 +591,7 @@ const MazeGame: React.FC = () => {
                     initializeMaze(1);
                     setGameState('start');
                     setScore(0);
-                    setLives(3);
+                    setLives(5);
                     setSubmitted(false);
                   }}
                   className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded text-lg"
