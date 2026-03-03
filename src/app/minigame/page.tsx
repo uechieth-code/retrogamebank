@@ -2,25 +2,49 @@
 
 import Link from "next/link";
 
-export default function MinigameHub() {
+export default function MinigameCenter() {
   const games = [
     {
       id: "runner",
       title: "エンドレス ランナー",
-      description: "レトロゲームのキャラクターを操作して、障害物をかわしながら走り続けよう！",
+      description: "障害物をかわしながら走り続けよう！長押しでジャンプの高さが変わる。",
       href: "/minigame/runner",
-    },
-    {
-      id: "blocks",
-      title: "ブロック パズル",
-      description: "落ちてくるテトリミノを積み重ねて、ラインを消して高スコアを目指そう！",
-      href: "/minigame/blocks",
+      color: "#ff6b35",
     },
     {
       id: "shooter",
       title: "スペース シューター",
-      description: "スペースインベーダー風シューティング！敵を撃ち落として宇宙を守ろう！",
+      description: "敵を撃ち落として宇宙を守れ！ボスを倒してハイスコアを狙おう。",
       href: "/minigame/shooter",
+      color: "#00d4ff",
+    },
+    {
+      id: "puyo",
+      title: "ぷよぷよパズル",
+      description: "同じ色を4つ以上つなげて消そう！連鎖で大量得点のチャンス。",
+      href: "/minigame/puyo",
+      color: "#00ff88",
+    },
+    {
+      id: "breakout",
+      title: "ブレイクアウト",
+      description: "パドルでボールを打ち返してブロックを全て壊せ！パワーアップも登場。",
+      href: "/minigame/breakout",
+      color: "#ffd700",
+    },
+    {
+      id: "flappy",
+      title: "フラッピーバード",
+      description: "タップで飛んで土管の隙間をくぐり抜けろ！シンプルだけど激ムズ。",
+      href: "/minigame/flappy",
+      color: "#ff4444",
+    },
+    {
+      id: "maze",
+      title: "パックメイズ",
+      description: "迷路のドットを全て集めろ！ゴーストに捕まるな。パワーエサで反撃だ。",
+      href: "/minigame/maze",
+      color: "#a855f7",
     },
   ];
 
@@ -36,122 +60,94 @@ export default function MinigameHub() {
         maxWidth: "1000px",
         margin: "0 auto",
       }}>
-        {/* ヘッダー */}
         <div style={{
-          marginBottom: "60px",
+          marginBottom: "40px",
           textAlign: "center",
         }}>
           <h1 style={{
-            fontSize: "48px",
+            fontSize: "36px",
             fontWeight: "bold",
             marginBottom: "10px",
             textShadow: "0 0 10px var(--color-retro-accent), 0 0 20px rgba(0, 212, 255, 0.3)",
             color: "var(--color-retro-accent)",
           }}>
-            ミニゲーム ハブ
+            ミニゲームセンター
           </h1>
           <p style={{
-            fontSize: "16px",
+            fontSize: "14px",
             color: "var(--color-retro-text-dim)",
-            marginTop: "10px",
+            marginTop: "8px",
           }}>
-            懐かしのレトログでゲーム体験を楽しもう！
+            全6種類のレトロ風ミニゲームで遊ぼう！ランキング上位を目指せ。
           </p>
         </div>
 
-        {/* ゲームカードグリッド */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "30px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "20px",
           marginBottom: "40px",
         }}>
           {games.map((game) => (
-            <div
-              key={game.id}
-              style={{
-                backgroundColor: "var(--color-retro-card)",
-                border: "2px solid var(--color-retro-border)",
-                borderRadius: "8px",
-                padding: "24px",
-                transition: "all 0.2s ease",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--color-retro-accent)";
-                el.style.boxShadow = "0 0 15px rgba(0, 212, 255, 0.15)";
-                el.style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--color-retro-border)";
-                el.style.boxShadow = "none";
-                el.style.transform = "translateY(0)";
-              }}
-            >
-              {/* ゲームタイトル */}
-              <h2 style={{
-                fontSize: "24px",
-                fontWeight: "bold",
-                marginBottom: "12px",
-                color: "var(--color-retro-accent2)",
-              }}>
-                {game.title}
-              </h2>
-
-              {/* 説明 */}
-              <p style={{
-                fontSize: "14px",
-                color: "var(--color-retro-text-dim)",
-                marginBottom: "20px",
-                lineHeight: "1.6",
-                minHeight: "60px",
-              }}>
-                {game.description}
-              </p>
-
-              {/* プレイボタン */}
-              <Link href={game.href}>
-                <button style={{
-                  width: "100%",
-                  padding: "12px 24px",
-                  backgroundColor: "var(--color-retro-accent)",
-                  color: "var(--color-retro-bg)",
-                  border: "2px solid var(--color-retro-accent)",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-family-pixel)",
+            <Link key={game.id} href={game.href} style={{ textDecoration: "none", color: "inherit" }}>
+              <div
+                style={{
+                  backgroundColor: "var(--color-retro-card)",
+                  border: "2px solid var(--color-retro-border)",
+                  borderRadius: "8px",
+                  padding: "20px",
                   transition: "all 0.2s ease",
-                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  height: "100%",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = game.color;
+                  el.style.boxShadow = `0 0 15px ${game.color}33`;
+                  el.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "var(--color-retro-border)";
+                  el.style.boxShadow = "none";
+                  el.style.transform = "translateY(0)";
+                }}
+              >
+                <div style={{
+                  width: "40px",
+                  height: "4px",
+                  backgroundColor: game.color,
+                  borderRadius: "2px",
+                  marginBottom: "12px",
+                }} />
+                <h2 style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  color: game.color,
                 }}>
-                  プレイ
-                </button>
-              </Link>
-            </div>
+                  {game.title}
+                </h2>
+                <p style={{
+                  fontSize: "13px",
+                  color: "var(--color-retro-text-dim)",
+                  lineHeight: "1.6",
+                }}>
+                  {game.description}
+                </p>
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* 備考 */}
-        <div style={{
-          backgroundColor: "rgba(0, 212, 255, 0.05)",
-          border: "1px solid var(--color-retro-border)",
-          borderRadius: "8px",
-          padding: "20px",
-          fontSize: "13px",
-          color: "var(--color-retro-text-dim)",
-          lineHeight: "1.8",
-        }}>
-          <p style={{ marginBottom: "10px", fontWeight: "bold" }}>
-            ゲーム操作:
-          </p>
-          <ul style={{ marginLeft: "20px" }}>
-            <li>エンドレス ランナー: スペースキーまたはクリック/タップでジャンプ</li>
-            <li>ブロック パズル: 矢印キーで移動、上キーで回転、スペースで高速ドロップ</li>
-            <li>スペース シューター: 矢印キー（またはA/Dキー）で移動、スペースキーで射撃</li>
-          </ul>
+        <div style={{ textAlign: "center" }}>
+          <Link href="/" style={{
+            color: "var(--color-retro-text-dim)",
+            fontSize: "13px",
+            textDecoration: "none",
+          }}>
+            ← トップページに戻る
+          </Link>
         </div>
       </div>
     </main>

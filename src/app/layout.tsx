@@ -42,6 +42,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen">
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -54,12 +60,6 @@ export default function RootLayout({
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
         </Script>
-        <link
-          href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-screen">
         <header className="border-b border-[var(--color-retro-border)] bg-[var(--color-retro-card)]">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">

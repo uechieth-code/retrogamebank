@@ -11,7 +11,9 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ console: string; slug: string }> }): Promise<Metadata> {
-  const { console: consoleId, slug } = await params;
+  const rawParams = await params;
+  const consoleId = decodeURIComponent(rawParams.console);
+  const slug = decodeURIComponent(rawParams.slug);
   const game = allGames.find((g) => g.console_id === consoleId && g.slug === slug);
   const consoleDef = getConsole(consoleId);
   const consoleName = consoleDef?.short_name ?? consoleId.toUpperCase();
@@ -132,7 +134,9 @@ export default async function GameDetailPage({
 }: {
   params: Promise<{ console: string; slug: string }>;
 }) {
-  const { console: consoleId, slug } = await params;
+  const rawParams = await params;
+  const consoleId = decodeURIComponent(rawParams.console);
+  const slug = decodeURIComponent(rawParams.slug);
   return (
     <>
       <GameJsonLd consoleId={consoleId} slug={slug} />

@@ -57,7 +57,7 @@ export default function GameDetailClient({
   }
 
   const priceHistory = getPriceHistory(game.id);
-  const shopLinks = generateShopLinks(game, consoleInfo.short_name);
+  const shopLinks = generateShopLinks(game, consoleInfo.name);
 
   const basePrice =
     game.original_price ?? defaultOriginalPrices[consoleId] ?? 5000;

@@ -684,7 +684,7 @@ export default function HomePageContent() {
                 </td>
                 <td className="py-3 px-2 hidden lg:table-cell text-center" onClick={(e) => e.stopPropagation()}>
                   {(() => {
-                    const consoleName = getConsole(game.console_id)?.short_name ?? "";
+                    const consoleName = getConsole(game.console_id)?.name ?? "";
                     const links = generateShopLinks(game, consoleName);
                     const amazon = links.find(l => l.shop_name === "Amazon");
                     return amazon ? (
