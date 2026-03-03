@@ -11,7 +11,7 @@ interface LeaderboardEntry {
 }
 
 interface LeaderboardProps {
-  gameId: "runner" | "shooter" | "puyo" | "flappy" | "breakout" | "maze";
+  gameId: "runner" | "shooter" | "puyo" | "flappy" | "breakout" | "maze" | "survivors";
 }
 
 export default function Leaderboard({ gameId }: LeaderboardProps) {

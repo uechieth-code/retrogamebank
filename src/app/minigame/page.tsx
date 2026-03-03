@@ -46,6 +46,13 @@ export default function MinigameCenter() {
       href: "/minigame/maze",
       color: "#a855f7",
     },
+    {
+      id: "survivors",
+      title: "サバイバーズ",
+      description: "四方から押し寄せる敵を自動攻撃で倒せ！レベルアップで武器と仲間を強化するローグライト型サバイバー。",
+      href: "/minigame/survivors",
+      color: "#ff2266",
+    },
   ];
 
   return (
@@ -78,7 +85,7 @@ export default function MinigameCenter() {
             color: "var(--color-retro-text-dim)",
             marginTop: "8px",
           }}>
-            全6種類のレトロ風ミニゲームで遊ぼう！ランキング上位を目指せ。
+            全7種類のレトロ風ミニゲームで遊ぼう！ランキング上位を目指せ。
           </p>
         </div>
 
