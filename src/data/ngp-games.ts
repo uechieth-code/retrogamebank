@@ -1,5 +1,9 @@
 import type { Game } from "@/types";
 
+function slug(t: string): string {
+  return t.toLowerCase().replace(/[　\s]+/g, "-").replace(/[！!？?。、・「」『』（）()【】\[\]＆&\'"＋＝:：]+/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
+}
+
 const raw: [string, string, string, string[], number | null, number | null, number, number | null, string][] = [
 ["1999-04-29","SNK vs. Capcom","SNK",["Fighting"],5200,7800,4800,320,"SNKとカプコンの看板キャラが共演する格闘ゲーム。豪華なキャラクターラインナップが魅力。"],
 ["1999-08-26","King of Fighters R-2","SNK",["Fighting"],4900,7200,4800,280,"KOFシリーズの携帯版第二弾。白熱したチームバトル格闘ゲーム。"],
@@ -18,7 +22,6 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2000-04-13","Fatal Fury: First Contact","SNK",["Fighting"],5000,7500,4800,250,"SNK格闘ゲーム、ファイナルファイト。懐かしい必殺技が登場する対戦ゲーム。"],
 ["1999-06-03","Mahjong Master","SNK",["Puzzle"],3700,5400,4800,65,"本格的な麻雀ゲーム。多彩なルール設定とAI対戦が楽しめる。"],
 ["2000-10-05","Neo Geo Cup '98: Dream Match","SNK",["Sports"],4200,6300,4800,95,"ネオジオの豪華キャラが集合したスポーツゲーム。ドリームマッチが実現。"],
-["2000-02-24","Shooting Master","SNK",["Shooter"],4000,5900,4800,70,"クラシックなアーケードシューティングゲーム。素早いアクション満載。"],
 ["1999-09-09","Blazing Star","SNK",["Shooter"],5400,8000,4800,190,"弾幕シューティングゲーム。鮮やかなビジュアルと激しいアーケードアクション。"],
 ["2000-07-06","Wai Wai Soccer","SNK",["Sports"],4100,6100,4800,110,"個性的なキャラが活躍するサッカーゲーム。アーケード風の楽しい対戦。"],
 ["1999-08-12","Shogi Master","SNK",["Board Game"],3600,5200,4800,50,"将棋の本格的なゲーム。AI対戦で戦略的な指し手が学べる。"],
@@ -27,9 +30,7 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["1999-12-02","Puyo Puyo","Compile",["Puzzle"],4300,6400,4800,210,"ぷよぷよの携帯版。懐かしいマッチスリーパズルの傑作。"],
 ["2000-03-30","Samurai Deeper Kyo","SNK",["Fighting"],4600,6900,4800,105,"漫画を原作とした侍アクションゲーム。スタイリッシュな剣戟が魅力。"],
 ["2000-06-15","KOF R-2 Plus","SNK",["Fighting"],5000,7500,4800,260,"KOFの強化版。新キャラと調整により更に熱い対戦が可能。"],
-["1999-11-25","The Last Blade: Beyond the Destiny","SNK",["Fighting"],4900,7300,4800,195,"ラストブレード。アーケードの傑作を携帯機で実現した侍格闘ゲーム。"],
 ["2000-05-25","League Bowling","SNK",["Sports"],4000,6000,4800,95,"ボーリング。リーグプレーモードと心地よいピンの破壊感が特徴。"],
-["2000-08-24","Spin Master","SNK",["Action"],4300,6400,4800,115,"スピニング操作が特徴のアクションゲーム。プラットフォームアクション。"],
 ["1999-10-07","Cotton: Fantastic Night Dreams","Success Corporation",["Shooter"],5100,7600,4800,175,"魔法少女がテーマのシューティングゲーム。ファンタジー系の鮮やかなアクション。"],
 ["2000-04-27","Biomotor Unitron","SNK",["Action/RPG"],4500,6800,4800,140,"ロボット育成とアクション融合。カスタマイズ要素が豊富なハイブリッド。"],
 ["2000-06-22","Evolution: World Soccer Championship","SNK",["Sports"],4200,6300,4800,105,"サッカーシミュレーション。国際大会を舞台にしたスポーツゲーム。"],
@@ -37,17 +38,10 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2000-07-13","Card Fighters Clash 2","SNK",["Card Game"],5200,7800,4800,220,"カードゲーム対戦。SNK格闘キャラを集めてバトル。"],
 ["2000-02-17","Faselei!","SNK",["Shooter"],5300,7900,4800,185,"シューティングゲーム。美しいピクセルアートと高難易度アクション。"],
 ["1999-12-30","Dive Alert: Decompression Sickness","Asmik Ace",["Shooter"],5000,7500,4800,95,"潜水艦シューティング。海底を舞台にした異色アクション。"],
-["2000-08-31","Neo Geo Cup '98: Dream Match","SNK",["Sports"],4300,6400,4800,100,"ネオジオ豪華キャラのスポーツ対戦。ドリームマッチが実現。"],
 ["2000-10-12","Golfito","SNK",["Sports"],4100,6100,4800,80,"ゴルフシミュレーション。アーケード感覚のプレイが楽しい。"],
 ["2000-03-23","Puzzle Link 2","SNK",["Puzzle"],3900,5700,4800,165,"パズルゲーム続編。マッチング要素でやり込める。"],
 ["2000-09-14","Sengoku 3","SNK",["Run and Gun"],4700,7000,4800,110,"戦国時代シューティング。アーケード版の移植が秀逸。"],
-["1999-09-23","Baseball Star Professional","SNK",["Sports"],4400,6500,4800,125,"野球シミュレーション。シーズン管理と戦略的プレイ。"],
-["2000-01-13","Marble Master Continued","Asmik Ace",["Puzzle"],3800,5500,4800,60,"ビー玉パズル。ステージクリア形式のやり込みゲーム。"],
-["2000-07-27","League Bowling","SNK",["Sports"],4100,6100,4800,100,"ボーリングゲーム。リーグモードが充実した対戦。"],
-["2000-04-06","King of Fighters R-2 Plus","SNK",["Fighting"],5100,7600,4800,270,"KOF携帯版。新キャラと強化キャラで更に熱い対戦。"],
 ["1999-11-04","SNK vs. Capcom Card Fighters Clash","SNK",["Card Game"],5300,8000,4800,240,"格闘キャラカードゲーム。集めて対戦する楽しさ。"],
-["2000-06-08","Gals Fighters","SNK",["Fighting"],5200,7700,4800,165,"女性格闘キャラ主役。素早いアクションと豊富なキャラ。"],
-["2000-09-28","Black Cat in the Grimm's Fairy Tales","SNK",["Platformer"],4300,6400,4800,75,"童話ベースのプラットフォーマー。可愛らしい世界観が魅力。"],
 ["2000-02-03","Legend of Kage 2","SNK",["Action"],4400,6500,4800,95,"忍者アクション。スタイリッシュな操舵と高難易度。"],
 ["2000-08-17","Pachisuro Aladdin 2","SNK",["Game Machine"],3600,5200,4800,40,"パチスロ機。ゲーム性とエンターテインメント融合。"],
 ];
@@ -57,7 +51,7 @@ export const ngpGames: Game[] = raw.map(([date, title, publisher, genre, used, n
   id: `ngp-${title}`,
   console_id: "ngp",
   title,
-  slug: title,
+  slug: slug(title),
   publisher,
   developer: publisher,
   genre,

@@ -1,5 +1,9 @@
 import type { Game } from "@/types";
 
+function slug(t: string): string {
+  return t.toLowerCase().replace(/[　\s]+/g, "-").replace(/[！!？?。、・「」『』（）()【】\[\]＆&\'"＋＝:：]+/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
+}
+
 const raw: [string, string, string, string[], number | null, number | null, number, number | null, string][] = [
 ["2001-11-15","Halo: Combat Evolved","Bungie",["FPS"],8900,12000,6800,500,"Xboxの看板タイトルである革新的なFPS。マスターチーフが活躍する壮大なキャンペーンが特徴。"],
 ["2002-12-09","Halo 2","Bungie",["FPS"],7800,11500,6800,800,"オンラインFPS革命を起こした傑作。充実したマルチプレイと続編キャンペーンが人気。"],
@@ -27,7 +31,6 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2004-03-11","Jade Empire","BioWare",["RPG"],8400,11600,6800,200,"武術ファンタジーが舞台のアクションRPG。魅力的なストーリーとバラエティ豊かなゲームプレイ。"],
 ["2002-05-16","Wreckless: The Yakuza Missions","Bunkindo",["Racing"],6200,8800,6800,110,"日本を舞台にした乗り物アクション。破壊可能な環境と激しい追跡シーンが特徴。"],
 ["2003-07-24","Black Crypt","Indy Games",["Dungeon Crawler"],5900,8300,6800,75,"戦略的な戦闘が特徴のダンジョンクローラー。ダークファンタジーの重い雰囲気が印象的。"],
-["2002-08-01","Rallisport Challenge","Pseudo Interactive",["Racing"],7100,10000,6800,170,"世界中のロケーションが舞台のラリーレーシング。天候がゲームプレイに影響。"],
 ["2004-05-27","Mech Assault 2: Lone Wolf","Day 1 Studios",["Mecha"],7300,10100,6800,190,"破壊可能な環境とマルチプレイが特徴のメカアクション。未来的な舞台で激戦を展開。"],
 ["2003-10-23","Deus Ex 2: Invisible War","Ion Storm",["FPS/RPG"],7600,10400,6800,160,"サイバーパンク的なFPS/RPGハイブリッド。プレイヤー選択で物語が変わる未来都市が舞台。"],
 ["2002-10-31","FIFA Soccer 2003","EA Sports",["Sports"],5400,7600,5800,250,"実在チームとプレイヤーが登場するサッカーシム。魅力的なマッチメカニクスが特徴。"],
@@ -38,10 +41,7 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2004-02-26","Pirates of the Caribbean","Criterion Games",["Action"],6800,9600,6800,140,"映画化された海賊アクション冒険。海戦と宝探しゲームプレイが特徴。"],
 ["2003-12-02","Freelancer","Digital Anvil",["Space Simulation"],8100,11400,6800,180,"複数の恒星系を舞台にした宇宙シム。貿易と戦闘の探索が中心。"],
 ["2002-07-18","Crimson Skies: High Road to Revenge","Microsoft",["Action"],7200,10100,6800,190,"ジェットパック装備のパイロットが主役の空中戦。スチームパンク的な架空の歴史が舞台。"],
-["2004-06-17","JSRF: Jet Set Radio Future","Treasure",["Action"],7200,10100,6800,280,"セルシェーディングの続編。ローラースケートのグラフィティアーティストと都市サウンド。"],
-["2003-09-02","Moto GP 3","Rainbow Studios",["Racing"],6900,9700,6800,145,"バイクレーシングシムの最新作。グラフィック向上と充実したチャンピオンモード。"],
 ["2004-01-08","Genma Onimusha","Capcom",["Action"],7600,10500,6800,175,"超自然要素のある侍アクション。激しい剣戦闘メカニクスが特徴。"],
-["2002-04-11","Star Wars Jedi Outcast","Raven Software",["FPS/Action"],7800,10800,6800,280,"FPSとライトセーバー戦を融合させたスターウォーズアクション。爽快な剣戟が特徴。"],
 ["2003-08-14","Rallisport Challenge 2","Rainbow Studios",["Racing"],7400,10400,6800,165,"ラリーシムの続編。車両操作向上と新ロケーション搭載の進化作。"],
 ["2004-11-02","Halo 2 Multiplayer Maps Pack","Bungie",["FPS DLC"],2500,3500,2500,120,"ハロー2向けの追加マップDLC。競技的なゲーム体験を拡張。"],
 ["2002-09-26","RalliSport Challenge","Pseudo Interactive",["Racing"],7100,10000,6800,170,"現実的な物理演算のラリーレーシング。世界中の多彩なロケーションが特徴。"],
@@ -54,23 +54,15 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2004-09-28","Burnout 3: Takedown","Criterion Games",["Racing"],7900,10800,6800,320,"爽快感抜群のレーシングゲーム。クラッシュモードが最高に面白い。"],
 ["2005-05-03","Project Gotham Racing 2","Bizarre Creations",["Racing"],7600,10300,6800,280,"洗練なレーシングシム。実在都市のコース収録とビジュアルが秀逸。"],
 ["2002-11-15","MechAssault","Day 1 Studios",["Mecha"],7400,10200,6800,220,"破壊可能な環境でメカが縦横無尽に暴れまわる。爽快感満点のアクション。"],
-["2003-05-13","Crimson Skies: High Road to Revenge","Microsoft",["Action"],7300,10200,6800,195,"空賊のジェットパック戦闘。スチームパンク的な世界観とアクションが秀逸。"],
 ["2003-10-28","Oddworld: Stranger's Wrath","Oddworld Inhabitants",["Action/Adventure"],7100,9900,6800,140,"独特な操舵と世界観。風変わりなキャラと謎解きが魅力のアクション冒険。"],
 ["2005-04-19","Psychonauts","Double Fine",["Platformer"],7800,10700,6800,165,"独創的で不思議な世界。精神世界を舞台にしたプラットフォーマーの傑作。"],
 ["2002-08-22","Otogi: Myth of Demons","FromSoftware",["Action"],6900,9600,6800,135,"日本的な妖怪世界のアクション。スタイリッシュな剣戟とVFXが秀逸。"],
 ["2004-12-16","Phantom Dust","Microsoft",["Action/RPG"],6800,9500,6800,110,"ダストカードを使う独特なアクションRPG。後発性ファンタジー世界が魅力。"],
 ["2004-03-04","Breakdown","Namco",["FPS/Action"],6600,9200,6800,95,"一人称視点のアクション。謎めいたストーリーと没入感が特徴。"],
 ["2004-04-15","OutRun 2","Sega",["Racing"],7500,10400,6800,185,"爽快感抜群のカジュアルレーサー。ビーチやビルを駆け抜ける。"],
-["2003-10-16","Rallisport Challenge","Pseudo Interactive",["Racing"],7200,10100,6800,175,"ラリーシム。天候と地形がゲームプレイに影響する現実的なレーシング。"],
-["2002-06-20","Jet Set Radio Future","Treasure",["Action"],7300,10200,6800,290,"セルシェーディングの傑作。グラフィティアーティストのローラースケート冒険。"],
 ["2005-02-08","Ninja Gaiden Black","Team Ninja",["Action"],8500,11700,6800,180,"激難度のニンジャアクション。完全版には新ステージと新敵が追加。"],
-["2003-01-30","Deus Ex 2: Invisible War","Ion Storm",["FPS/RPG"],7700,10500,6800,165,"サイバーパンク的なFPS/RPGハイブリッド。選択肢によって物語が分岐。"],
-["2002-12-26","Genma Onimusha","Capcom",["Action"],7700,10600,6800,180,"超自然要素の侍アクション。激しい剣戟とダークファンタジー世界。"],
 ["2004-07-22","Star Wars Jedi Knight II: Jedi Outcast","Raven Software",["FPS/Action"],8000,11000,6800,290,"FPSとライトセーバー戦を融合。爽快な剣戟とスターウォーズの世界観。"],
 ["2002-05-02","PanzerDragoon Orta","Smilebit",["Shooter"],9200,12600,6800,125,"ドラゴンに乗るレールシューター。美しい映像とストーリー性豊かなキャンペーン。"],
-["2005-06-07","Doom 3","id Software",["FPS"],7600,10300,6800,310,"ホラー要素ありのFPS。高度なライティング表現が独特の雰囲気を演出。"],
-["2003-04-03","Splinter Cell","Ubisoft",["Stealth"],7700,10500,6800,330,"革新的ステルスアクション。光と影の機構が戦略的なプレイを創造。"],
-["2005-08-30","TimeSplitters 2","Free Radical Design",["FPS"],7400,10200,6800,185,"ユーモアある時間旅行FPS。多様なマップと武器が魅力。"],
 ["2004-11-23","Metal Gear Solid 2: Tanker Chapter","Konami",["Stealth"],8200,11400,6800,200,"ステルスゲームの傑作。謎めいたシナリオとスタイリッシュなアクション。"],
 ["2005-03-10","Kung Fu Hustle","Bunkindo",["Action"],6200,8800,6800,85,"映画原作のアクション。スタイリッシュな格闘シーンが活躍。"],
 ["2003-12-18","Prisoner of War","Codemasters",["Stealth/Action"],6900,9700,6800,105,"戦争捕虜がテーマのステルスアクション。逃亡ミッションが主軸。"],
@@ -89,8 +81,6 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2005-04-28","Galleon","Stateline Games",["Action"],6300,8900,6800,80,"スワッシュバックリング冒険アクション。海洋冒険がテーマ。"],
 ["2003-08-07","Amped 2","Rainbow Studios",["Sports"],6600,9300,6800,190,"スノーボード続編。更に迫力あるトリックと多彩なコース。"],
 ["2005-07-12","Unreal Championship 2: The Liandri Conflict","Epic Games",["FPS"],7200,10000,6800,140,"未来的FPS。スポーツライクなゲームプレイが特徴。"],
-["2002-12-19","Wreckless: The Yakuza Missions","Bunkindo",["Racing"],6300,8900,6800,115,"日本舞台の乗り物アクション。破壊可能な環境で激しい追跡。"],
-["2004-09-02","Kakuto Chojin: Back Alley Bronze","8ing/Raizing",["Fighting"],6200,8700,6800,85,"ストリート格闘ゲーム。アンダーグラウンドなファイティング世界。"],
 ];
 
 
@@ -98,7 +88,7 @@ export const xboxGames: Game[] = raw.map(([date, title, publisher, genre, used, 
   id: `xbox-${title}`,
   console_id: "xbox",
   title,
-  slug: title,
+  slug: slug(title),
   publisher,
   developer: publisher,
   genre,
