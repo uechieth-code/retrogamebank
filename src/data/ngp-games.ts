@@ -31,7 +31,27 @@ const raw: [string, string, string, string[], number | null, number | null, numb
 ["2000-05-25","League Bowling","SNK",["Sports"],4000,6000,4800,95,"ボーリング。リーグプレーモードと心地よいピンの破壊感が特徴。"],
 ["2000-08-24","Spin Master","SNK",["Action"],4300,6400,4800,115,"スピニング操作が特徴のアクションゲーム。プラットフォームアクション。"],
 ["1999-10-07","Cotton: Fantastic Night Dreams","Success Corporation",["Shooter"],5100,7600,4800,175,"魔法少女がテーマのシューティングゲーム。ファンタジー系の鮮やかなアクション。"],
+["2000-04-27","Biomotor Unitron","SNK",["Action/RPG"],4500,6800,4800,140,"ロボット育成とアクション融合。カスタマイズ要素が豊富なハイブリッド。"],
+["2000-06-22","Evolution: World Soccer Championship","SNK",["Sports"],4200,6300,4800,105,"サッカーシミュレーション。国際大会を舞台にしたスポーツゲーム。"],
+["2000-05-04","Cool Cool Jam","SNK",["Puzzle"],4000,5900,4800,125,"リズムパズルゲーム。スタイリッシュな音楽と映像が特徴。"],
+["2000-07-13","Card Fighters Clash 2","SNK",["Card Game"],5200,7800,4800,220,"カードゲーム対戦。SNK格闘キャラを集めてバトル。"],
+["2000-02-17","Faselei!","SNK",["Shooter"],5300,7900,4800,185,"シューティングゲーム。美しいピクセルアートと高難易度アクション。"],
+["1999-12-30","Dive Alert: Decompression Sickness","Asmik Ace",["Shooter"],5000,7500,4800,95,"潜水艦シューティング。海底を舞台にした異色アクション。"],
+["2000-08-31","Neo Geo Cup '98: Dream Match","SNK",["Sports"],4300,6400,4800,100,"ネオジオ豪華キャラのスポーツ対戦。ドリームマッチが実現。"],
+["2000-10-12","Golfito","SNK",["Sports"],4100,6100,4800,80,"ゴルフシミュレーション。アーケード感覚のプレイが楽しい。"],
+["2000-03-23","Puzzle Link 2","SNK",["Puzzle"],3900,5700,4800,165,"パズルゲーム続編。マッチング要素でやり込める。"],
+["2000-09-14","Sengoku 3","SNK",["Run and Gun"],4700,7000,4800,110,"戦国時代シューティング。アーケード版の移植が秀逸。"],
+["1999-09-23","Baseball Star Professional","SNK",["Sports"],4400,6500,4800,125,"野球シミュレーション。シーズン管理と戦略的プレイ。"],
+["2000-01-13","Marble Master Continued","Asmik Ace",["Puzzle"],3800,5500,4800,60,"ビー玉パズル。ステージクリア形式のやり込みゲーム。"],
+["2000-07-27","League Bowling","SNK",["Sports"],4100,6100,4800,100,"ボーリングゲーム。リーグモードが充実した対戦。"],
+["2000-04-06","King of Fighters R-2 Plus","SNK",["Fighting"],5100,7600,4800,270,"KOF携帯版。新キャラと強化キャラで更に熱い対戦。"],
+["1999-11-04","SNK vs. Capcom Card Fighters Clash","SNK",["Card Game"],5300,8000,4800,240,"格闘キャラカードゲーム。集めて対戦する楽しさ。"],
+["2000-06-08","Gals Fighters","SNK",["Fighting"],5200,7700,4800,165,"女性格闘キャラ主役。素早いアクションと豊富なキャラ。"],
+["2000-09-28","Black Cat in the Grimm's Fairy Tales","SNK",["Platformer"],4300,6400,4800,75,"童話ベースのプラットフォーマー。可愛らしい世界観が魅力。"],
+["2000-02-03","Legend of Kage 2","SNK",["Action"],4400,6500,4800,95,"忍者アクション。スタイリッシュな操舵と高難易度。"],
+["2000-08-17","Pachisuro Aladdin 2","SNK",["Game Machine"],3600,5200,4800,40,"パチスロ機。ゲーム性とエンターテインメント融合。"],
 ];
+
 
 export const ngpGames: Game[] = raw.map(([date, title, publisher, genre, used, newP, orig, sales, desc]) => ({
   id: `ngp-${title}`,
