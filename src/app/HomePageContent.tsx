@@ -261,22 +261,6 @@ export default function HomePageContent() {
         </a>
       </div>
 
-      {/* 機種別クイックリンク */}
-      <div className="mb-6">
-        <h3 className="text-sm font-bold text-[var(--color-retro-text-dim)] mb-2">機種別ゲーム一覧</h3>
-        <div className="flex flex-wrap gap-2">
-          {consoles.map((c) => (
-            <a
-              key={c.id}
-              href={`/games/${c.id}`}
-              className="tag tag-console text-xs hover:opacity-80 transition-opacity"
-            >
-              {c.short_name}
-            </a>
-          ))}
-        </div>
-      </div>
-
       {/* 検索バー */}
       <div className="mb-4">
         <input
@@ -757,6 +741,22 @@ export default function HomePageContent() {
           </div>
         );
       })()}
+
+      {/* 機種別ゲーム一覧 */}
+      <div className="mt-12 pt-8 border-t border-[var(--color-retro-border)]">
+        <h3 className="text-sm font-bold text-[var(--color-retro-text-dim)] mb-3">機種別ゲーム一覧</h3>
+        <div className="flex flex-wrap gap-2">
+          {consoles.map((c) => (
+            <a
+              key={c.id}
+              href={`/games/${c.id}`}
+              className="tag tag-console text-xs hover:opacity-80 transition-opacity"
+            >
+              {c.short_name}
+            </a>
+          ))}
+        </div>
+      </div>
 
     </div>
   );

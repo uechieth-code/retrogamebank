@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/generate-sitemap.mjs",
+    "build": "node scripts/generate-ogp.mjs && next build && node scripts/generate-sitemap.mjs",
     "start": "next start"
   },
   "dependencies": {
@@ -19,5 +19,8 @@
     "recharts": "^3.7.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

@@ -1,0 +1,3 @@
+# Google AdSense ads.txt
+# AdSense承認後に以下の行を有効にしてください
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

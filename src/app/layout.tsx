@@ -26,11 +26,20 @@ export const metadata: Metadata = {
     title: "レトロゲームバンク | レトロゲーム中古価格・プレミア情報サイト",
     description: "24機種15000タイトル以上のレトロゲーム価格・プレミア情報を収録。中古相場がひと目で分かるデータベース。",
     url: "https://retrogamebank.com",
+    images: [
+      {
+        url: "https://retrogamebank.com/ogp.png",
+        width: 1200,
+        height: 630,
+        alt: "レトロゲームバンク",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "レトロゲームバンク | レトロゲーム中古価格・プレミア情報",
     description: "24機種15000タイトル以上のレトロゲーム価格情報を収録。",
+    images: ["https://retrogamebank.com/ogp.png"],
   },
 };
 
@@ -128,6 +137,7 @@ export default function RootLayout({
                 <a href="/minigame" className="hover:text-[var(--color-retro-accent)] transition-colors">ミニゲーム</a>
                 <a href="/terms" className="hover:text-[var(--color-retro-accent)] transition-colors">利用規約</a>
                 <a href="/privacy" className="hover:text-[var(--color-retro-accent)] transition-colors">プライバシーポリシー</a>
+                <a href="/contact" className="hover:text-[var(--color-retro-accent)] transition-colors">お問い合わせ</a>
               </div>
             </div>
             <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-[var(--color-retro-text-dim)]">

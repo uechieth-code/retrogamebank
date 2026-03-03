@@ -30,12 +30,26 @@ export default function GameDetailClient({
 
   // sessionStorageからフィルター付きURLを復元（Hooksはearly return前に配置）
   const [listUrl, setListUrl] = useState("/");
+  const [isFavorite, setIsFavorite] = useState(false);
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem("retrogamebank_filters");
       if (saved) setListUrl(`/?${saved}`);
     } catch {}
-  }, []);
+    try {
+      const favs: string[] = JSON.parse(localStorage.getItem("retrogamebank_favorites") || "[]");
+      setIsFavorite(favs.includes(game?.id ?? ""));
+    } catch {}
+  }, [game?.id]);
+
+  const toggleFavorite = () => {
+    try {
+      const favs: string[] = JSON.parse(localStorage.getItem("retrogamebank_favorites") || "[]");
+      const newFavs = isFavorite ? favs.filter((id) => id !== game?.id) : [...favs, game?.id ?? ""];
+      localStorage.setItem("retrogamebank_favorites", JSON.stringify(newFavs));
+      setIsFavorite(!isFavorite);
+    } catch {}
+  };
 
   if (!game || !consoleInfo) {
     return (
@@ -125,12 +139,21 @@ export default function GameDetailClient({
                 {premiumRankToStars(premiumRank)}
               </span>
             </div>
-            <h1
-              className="text-2xl md:text-3xl font-bold retro-glow"
-              style={{ fontFamily: "var(--font-family-pixel)" }}
-            >
-              {game.title}
-            </h1>
+            <div className="flex items-start gap-3">
+              <h1
+                className="text-2xl md:text-3xl font-bold retro-glow flex-1"
+                style={{ fontFamily: "var(--font-family-pixel)" }}
+              >
+                {game.title}
+              </h1>
+              <button
+                onClick={toggleFavorite}
+                className="mt-1 text-2xl transition-transform hover:scale-110"
+                title={isFavorite ? "お気に入りから削除" : "お気に入りに追加"}
+              >
+                {isFavorite ? "★" : "☆"}
+              </button>
+            </div>
           </div>
 
           {/* 基本情報テーブル */}
