@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     description: "24機種15000タイトル以上のレトロゲーム価格情報を収録。",
     images: ["https://retrogamebank.com/ogp.png"],
   },
+  verification: {
+    google: "QlaNlr3MM7Ssqq8tTowchOeOcej35TfKUgkQAtJL4K0",
+  },
 };
 
 export default function RootLayout({
