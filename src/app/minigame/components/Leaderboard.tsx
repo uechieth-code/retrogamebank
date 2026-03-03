@@ -53,12 +53,10 @@ export default function Leaderboard({ gameId }: LeaderboardProps) {
                   return;
                 }
               } catch (firebaseError) {
-                console.warn("Firebase database access failed, using localStorage");
               }
             }
           }
         } catch (firebaseImportError) {
-          console.warn("Firebase not available");
         }
         
         // Fallback to localStorage

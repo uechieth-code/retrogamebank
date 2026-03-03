@@ -49,6 +49,7 @@ async function main() {
     { url: "/", priority: "1.0", freq: "weekly" },
     { url: "/ranking", priority: "0.8", freq: "weekly" },
     { url: "/minigame", priority: "0.7", freq: "monthly" },
+    { url: "/terms", priority: "0.3", freq: "yearly" },
     { url: "/privacy", priority: "0.3", freq: "yearly" },
   ];
 

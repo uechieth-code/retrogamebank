@@ -636,7 +636,6 @@ export default function PuyoGame() {
           }
         }
       } catch (err) {
-        console.log("Firebase not available");
       }
 
       // Always save to localStorage

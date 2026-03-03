@@ -885,12 +885,10 @@ export default function ShooterGame() {
             const { ref, push } = await import("firebase/database");
             await push(ref(db, "leaderboards/shooter"), entry);
           } catch (importError) {
-            console.warn("Firebase database import failed, using localStorage only");
           }
         }
       }
     } catch (error) {
-      console.warn("Firebase not available, score saved to localStorage");
     }
 
     restart();

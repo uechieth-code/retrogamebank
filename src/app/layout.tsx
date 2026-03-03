@@ -42,6 +42,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap"
           rel="stylesheet"
@@ -124,6 +126,7 @@ export default function RootLayout({
               <div className="flex gap-6 text-sm text-[var(--color-retro-text-dim)]">
                 <a href="/ranking" className="hover:text-[var(--color-retro-accent)] transition-colors">ランキング</a>
                 <a href="/minigame" className="hover:text-[var(--color-retro-accent)] transition-colors">ミニゲーム</a>
+                <a href="/terms" className="hover:text-[var(--color-retro-accent)] transition-colors">利用規約</a>
                 <a href="/privacy" className="hover:text-[var(--color-retro-accent)] transition-colors">プライバシーポリシー</a>
               </div>
             </div>
