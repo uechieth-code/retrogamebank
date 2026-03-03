@@ -5,12 +5,32 @@ import "./globals.css";
 const GA_MEASUREMENT_ID = "G-Y3Y966YP2Z";
 
 export const metadata: Metadata = {
-  title: "レトロゲームバンク - RetroGameBank | レトロゲーム価格情報サイト",
+  title: {
+    default: "レトロゲームバンク | レトロゲーム中古価格・プレミア情報サイト",
+    template: "%s | レトロゲームバンク",
+  },
   description:
-    "FC・SFC・GB・N64・GC・Wii・WiiU・GBA・NDS・3DS・PS1・PS2・PS3・PSP・Vita・MD・SS・DC・PCE・NEOGEO・NGP・GG・Xbox・Xbox360など24機種、15000タイトル以上のレトロゲーム価格情報を収録。中古・新品価格、プレミアランク、販売本数データを一元提供。",
-  keywords: "レトロゲーム,ファミコン,スーパーファミコン,ゲームボーイ,NINTENDO64,ゲームキューブ,Wii,プレイステーション,PS2,PS3,PSP,メガドライブ,セガサターン,ドリームキャスト,PCエンジン,ネオジオ,中古ゲーム,価格,プレミアソフト",
+    "ファミコン・スーファミ・ゲームボーイ・PS1・PS2・セガサターン・メガドライブなど24機種15000タイトル以上のレトロゲーム中古価格・新品価格・プレミアランク・販売本数を一覧で比較。レトロゲームの相場がひと目で分かる価格情報データベース。",
+  keywords: "レトロゲーム,レトロゲーム 一覧,レトロゲーム 価格,ゲーム 一覧,ファミコン ソフト 一覧,スーファミ ソフト 一覧,レトロゲーム プレミア,中古ゲーム 価格,ファミコン,スーパーファミコン,ゲームボーイ,NINTENDO64,ゲームキューブ,Wii,プレイステーション,PS2,PS3,PSP,メガドライブ,セガサターン,ドリームキャスト,PCエンジン,ネオジオ,プレミアソフト,レトロゲーム 相場",
   icons: {
     icon: "/icon.svg",
+  },
+  metadataBase: new URL("https://retrogamebank.com"),
+  alternates: {
+    canonical: "https://retrogamebank.com",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    siteName: "レトロゲームバンク",
+    title: "レトロゲームバンク | レトロゲーム中古価格・プレミア情報サイト",
+    description: "24機種15000タイトル以上のレトロゲーム価格・プレミア情報を収録。中古相場がひと目で分かるデータベース。",
+    url: "https://retrogamebank.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "レトロゲームバンク | レトロゲーム中古価格・プレミア情報",
+    description: "24機種15000タイトル以上のレトロゲーム価格情報を収録。",
   },
 };
 

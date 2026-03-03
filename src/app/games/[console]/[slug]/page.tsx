@@ -23,10 +23,28 @@ export async function generateMetadata({ params }: { params: Promise<{ console: 
   const priceInfo = game.current_used_price ? `中古¥${game.current_used_price.toLocaleString()}` : "";
   const desc = `${consoleName}「${game.title}」の価格情報。${priceInfo ? priceInfo + "。" : ""}${game.description}`;
 
+  const title = `${game.title}（${consoleName}）の中古価格・プレミア情報`;
+  const description = desc.slice(0, 160);
+  const url = `https://retrogamebank.com/games/${consoleId}/${slug}`;
+
   return {
-    title: `${game.title}（${consoleName}）の価格・プレミア情報 | RetroGameBank`,
-    description: desc.slice(0, 160),
-    keywords: `${game.title},${consoleName},${consoleDef?.name ?? ""},${game.genre.join(",")},中古価格,プレミア,レトロゲーム`,
+    title,
+    description,
+    keywords: `${game.title},${consoleName},${consoleDef?.name ?? ""},${game.genre.join(",")},中古価格,プレミア,レトロゲーム,相場`,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      locale: "ja_JP",
+      siteName: "レトロゲームバンク",
+      title,
+      description,
+      url,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   };
 }
 

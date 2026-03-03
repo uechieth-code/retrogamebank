@@ -252,6 +252,13 @@ export default function HomePageContent() {
         <p className="text-sm text-[var(--color-retro-text-dim)] mt-1">
           全{allGames.length}タイトル収録
         </p>
+        <a
+          href="/minigame"
+          className="inline-block mt-3 px-5 py-2 rounded-xl bg-[var(--color-retro-accent2)] text-white font-bold text-sm hover:opacity-90 transition-opacity"
+          style={{ fontFamily: "var(--font-family-pixel)" }}
+        >
+          🎮 ミニゲームで遊ぶ
+        </a>
       </div>
 
       {/* 検索バー */}
@@ -723,6 +730,7 @@ export default function HomePageContent() {
           </div>
         );
       })()}
+
     </div>
   );
 }

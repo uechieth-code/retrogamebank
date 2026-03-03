@@ -11,8 +11,10 @@ async function getGamePaths() {
   try {
     const consoles = await readdir(gamesDir);
     for (const c of consoles) {
+      if (c.includes(".")) continue; // skip files like .html
       const slugs = await readdir(join(gamesDir, c));
       for (const s of slugs) {
+        if (s.includes(".")) continue; // skip .html/.txt files, only directories
         paths.push(`/games/${c}/${s}`);
       }
     }
@@ -22,13 +24,31 @@ async function getGamePaths() {
   return paths;
 }
 
+async function getRankingConsolePaths() {
+  const rankingDir = join(OUT_DIR, "ranking");
+  const paths = [];
+  try {
+    const entries = await readdir(rankingDir);
+    for (const e of entries) {
+      if (!e.includes(".")) {
+        paths.push(`/ranking/${e}`);
+      }
+    }
+  } catch (e) {
+    console.error("Error reading ranking dir:", e.message);
+  }
+  return paths;
+}
+
 async function main() {
   const gamePaths = await getGamePaths();
+  const rankingPaths = await getRankingConsolePaths();
   const today = new Date().toISOString().split("T")[0];
 
   const staticPages = [
     { url: "/", priority: "1.0", freq: "weekly" },
     { url: "/ranking", priority: "0.8", freq: "weekly" },
+    { url: "/minigame", priority: "0.7", freq: "monthly" },
     { url: "/privacy", priority: "0.3", freq: "yearly" },
   ];
 
@@ -38,14 +58,19 @@ async function main() {
     xml += `  <url><loc>${BASE_URL}${p.url}</loc><lastmod>${today}</lastmod><changefreq>${p.freq}</changefreq><priority>${p.priority}</priority></url>\n`;
   }
 
+  for (const path of rankingPaths) {
+    xml += `  <url><loc>${BASE_URL}${path}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+  }
+
   for (const path of gamePaths) {
     xml += `  <url><loc>${BASE_URL}${path}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
   }
 
   xml += `</urlset>\n`;
 
+  const total = staticPages.length + rankingPaths.length + gamePaths.length;
   await writeFile(join(OUT_DIR, "sitemap.xml"), xml);
-  console.log(`Sitemap generated: ${staticPages.length + gamePaths.length} URLs`);
+  console.log(`Sitemap generated: ${total} URLs (${staticPages.length} static + ${rankingPaths.length} ranking + ${gamePaths.length} games)`);
 }
 
 main();

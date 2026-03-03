@@ -24,7 +24,82 @@ import { wiiuGames } from "./wiiu-games";
 import { xboxGames } from "./xbox-games";
 import { ngpGames } from "./ngp-games";
 
-export const allGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames, ...n3dsGames, ...n64Games, ...gcGames, ...dcGames, ...pceGames, ...pspGames, ...neogeoGames, ...wiiGames, ...ps3Games, ...vitaGames, ...ggGames, ...x360Games, ...wiiuGames, ...xboxGames, ...ngpGames];
+// ジャンル正規化マップ（細分化されたジャンルを統合）
+const genreNormalize: Record<string, string> = {
+  // 英語→日本語
+  "Action": "アクション",
+  "Action/Adventure": "アクション",
+  "Action/RPG": "アクションRPG",
+  "RPG": "RPG",
+  "Puzzle": "パズル",
+  "Racing": "レース",
+  "Sports": "スポーツ",
+  "Fighting": "格闘",
+  "Shooter": "シューティング",
+  "FPS": "シューティング",
+  "FPS DLC": "シューティング",
+  "FPS/Action": "シューティング",
+  "FPS/RPG": "シューティング",
+  "TPS": "シューティング",
+  "Run and Gun": "シューティング",
+  "SLG": "シミュレーション",
+  "Stealth": "アクション",
+  "Stealth/Action": "アクション",
+  "Platformer": "アクション",
+  "Party": "パーティ",
+  "Board Game": "テーブル",
+  "Card Game": "テーブル",
+  "Maze": "パズル",
+  "Mecha": "アクション",
+  "Game Machine": "その他",
+  "MMORPG": "RPG",
+  // 日本語の重複・統合
+  "レーシング": "レース",
+  "リズムゲーム": "リズム",
+  "ボードゲーム": "テーブル",
+  "カード": "テーブル",
+  "パーティゲーム": "パーティ",
+  "ビジュアルノベル": "アドベンチャー",
+  "ノベル": "アドベンチャー",
+  "ファンタジーRPG": "RPG",
+  "冒険RPG": "RPG",
+  "シミュレーションRPG": "シミュレーション",
+  "ホラーアクション": "アクション",
+  "ベルトスクロール": "アクション",
+  "サンドボックス": "アクション",
+  "オープンワールド": "アクション",
+  "ボクシング": "格闘",
+  "恋愛シミュレーション": "シミュレーション",
+  "教育": "その他",
+  "知育": "その他",
+  "学習": "その他",
+  "ステルス": "アクション",
+  "飛行": "シューティング",
+  "横スクロール": "アクション",
+  "縦スクロール": "シューティング",
+  "落ちモノ": "パズル",
+  "ピンボール": "テーブル",
+  "将棋": "テーブル",
+  "囲碁": "テーブル",
+  "麻雀": "テーブル",
+  "釣り": "スポーツ",
+  "音楽": "リズム",
+  "ミニゲーム": "パーティ",
+  "Dungeon Crawler": "RPG",
+  "Space Simulation": "シミュレーション",
+};
+
+function normalizeGenres(genres: string[]): string[] {
+  const normalized = genres.map(g => genreNormalize[g] ?? g);
+  return [...new Set(normalized)];
+}
+
+const rawGames: Game[] = [...fcGames, ...sfcGames, ...gbGames, ...mdGames, ...gbaGames, ...ndsGames, ...ps1Games, ...ps2Games, ...ssGames, ...n3dsGames, ...n64Games, ...gcGames, ...dcGames, ...pceGames, ...pspGames, ...neogeoGames, ...wiiGames, ...ps3Games, ...vitaGames, ...ggGames, ...x360Games, ...wiiuGames, ...xboxGames, ...ngpGames];
+
+export const allGames: Game[] = rawGames.map(g => ({
+  ...g,
+  genre: normalizeGenres(g.genre),
+}));
 
 export function getGamesByConsole(consoleId: string): Game[] {
   return allGames.filter((g) => g.console_id === consoleId);

@@ -71,15 +71,27 @@ export default function GameDetailClient({
       ? ((game.current_used_price - basePrice) / basePrice) * 100
       : null;
 
+  // 関連ゲーム: スコアベースで関連度順にソート
   const relatedGames = allGames
-    .filter(
-      (g) =>
-        g.id !== game.id &&
-        (g.publisher === game.publisher ||
-          g.genre.some((genre) => game.genre.includes(genre)) ||
-          g.console_id === game.console_id)
-    )
+    .filter((g) => g.id !== game.id)
+    .map((g) => {
+      let score = 0;
+      if (g.console_id === game.console_id) score += 2;
+      if (g.publisher === game.publisher) score += 3;
+      const genreOverlap = g.genre.filter((genre) => game.genre.includes(genre)).length;
+      score += genreOverlap * 2;
+      if (score > 0 && Math.abs(g.premium_rank - game.premium_rank) <= 1) score += 1;
+      return { ...g, _score: score };
+    })
+    .filter((g) => g._score >= 3)
+    .sort((a, b) => b._score - a._score)
     .slice(0, 6);
+
+  // 同メーカーの他タイトル（関連ゲームとは別枠）
+  const samePublisherGames = allGames
+    .filter((g) => g.id !== game.id && g.publisher === game.publisher)
+    .sort((a, b) => (b.current_used_price ?? 0) - (a.current_used_price ?? 0))
+    .slice(0, 4);
 
   const premiumLabels: Record<number, string> = {
     1: "一般的な中古ソフト",
@@ -257,6 +269,31 @@ export default function GameDetailClient({
           </div>
         </div>
       )}
+
+      {/* 同メーカーの他タイトル */}
+      {samePublisherGames.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-[var(--color-retro-accent)] mb-4">
+            {game.publisher}の他タイトル
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {samePublisherGames.map((rg) => (
+              <RelatedGameCard key={rg.id} game={rg} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ミニゲームへのリンク */}
+      <div className="mt-8 text-center">
+        <a
+          href="/minigame"
+          className="inline-block px-6 py-3 rounded-xl bg-[var(--color-retro-accent2)] text-white font-bold text-sm hover:opacity-90 transition-opacity"
+          style={{ fontFamily: "var(--font-family-pixel)" }}
+        >
+          🎮 ミニゲームで遊ぶ
+        </a>
+      </div>
 
       {/* 構造化データ（JSON-LD） */}
       <script
