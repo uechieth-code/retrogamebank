@@ -1,7 +1,7 @@
 import { Game } from "@/types";
 
 function slug(t: string): string {
-  return t.toLowerCase().replace(/[　\s]+/g, "-").replace(/[！!？?。、・「」『』（）()【】\[\]＆&'"＋＝]+/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
+  return t.toLowerCase().replace(/[\u3000\s]+/g, "-").replace(/[\uff01!\uff1f?\u3002\u3001\u30fb\u300c\u300d\u300e\u300f\uff08\uff09()\u3010\u3011\[\]\uff06&\'"\uff0b\uff1d+#%@~:;\/<>{}|\^`$\\\uff1a]+/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
 }
 
 // [date, title, publisher, genre[], used_price|null, new_price|null, original_price|null, sales_万本|null, description]

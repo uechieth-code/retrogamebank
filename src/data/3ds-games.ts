@@ -1350,8 +1350,8 @@ const raw: N3DSRaw[] = [
   ["2019-12-23", "ドラゴンファングZ 竜者ロゼと宿り木の迷宮", "トイディア", ["RPG"], 1341, 1315, 4800, null, "冒険と成長の物語を楽しめるニンテンドー3DS用RPG。仲間と共に様々な敵に立ち向かう。"],
 ];
 
-function slug(t: string) {
-  return t;
+function slug(t: string): string {
+  return t.toLowerCase().replace(/[\u3000\s]+/g, "-").replace(/[\uff01!\uff1f?\u3002\u3001\u30fb\u300c\u300d\u300e\u300f\uff08\uff09()\u3010\u3011\[\]\uff06&\'"\uff0b\uff1d+#%@~:;\/<>{}|\^`$\\\uff1a]+/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
 }
 
 export const n3dsGames: Game[] = raw.map(([d, t, p, genres, usedP, newP, origP, sales, desc], i) => ({
