@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getMvpConsoles, getConsole, mvpConsoleIds } from "@/data/consoles";
+import { consoles, getMvpConsoles, getConsole, mvpConsoleIds } from "@/data/consoles";
 import { getGamesByConsole } from "@/data/games";
 import ConsoleGameListClient from "./ConsoleGameListClient";
 
@@ -110,11 +110,19 @@ export default async function ConsoleGameListPage({
   params: Promise<{ console: string }>;
 }) {
   const { console: consoleId } = await params;
+  const consoleInfo = consoles.find(c => c.id === consoleId);
+  const consoleName = consoleInfo?.name || consoleId;
+  const mfr = consoleInfo?.manufacturer || "";
   return (
     <>
       <ConsoleJsonLd consoleId={consoleId} />
       <ConsoleBreadcrumbJsonLd consoleId={consoleId} />
-      <ConsoleGameListClient paramsPromise={params} />
+            <section className="mb-4 px-1">
+        <p className="text-sm text-gray-400 leading-relaxed">
+          {consoleName}（{mfr}）のゲームソフト一覧です。中古価格・新品価格・プレミアランキング・販売本数を一覧で確認できます。お探しのレトロゲームソフトの価格比較にご活用ください。
+        </p>
+      </section>
+<ConsoleGameListClient paramsPromise={params} />
     </>
   );
 }
