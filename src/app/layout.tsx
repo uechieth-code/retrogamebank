@@ -92,12 +92,12 @@ export default function RootLayout({
             <a href="/" className="flex items-center gap-3">
               <span className="text-2xl">🎮</span>
               <div>
-                <h1
+                <span
                   className="text-xl font-bold retro-glow"
                   style={{ fontFamily: "var(--font-family-pixel)" }}
                 >
                   RetroGameBank
-                </h1>
+                </span>
                 <p className="text-xs text-[var(--color-retro-text-dim)]">
                   レトロゲームバンク
                 </p>
