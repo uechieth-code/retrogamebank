@@ -745,18 +745,18 @@ export default function HomePageContent() {
       {/* 機種別ゲーム一覧 */}
       <div className="mt-12 pt-8 border-t border-[var(--color-retro-border)]">
         <h3 className="text-sm font-bold text-[var(--color-retro-text-dim)] mb-3">機種別ゲーム一覧</h3>
-        <div className="flex flex-wrap gap-2">
-          {consoles.map((c) => (
-            <a
-              key={c.id}
-              href={`/games/${c.id}`}
-              className="tag tag-console text-xs hover:opacity-80 transition-opacity"
-            >
-              {c.short_name}
-            </a>
-          ))}
-        </div>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+            {consoles.map((c) => (
+              <a
+                key={c.id}
+                href={`/games/${c.id}`}
+                title={`${c.name} ソフト一覧`}
+                className="block px-3 py-2 rounded bg-gray-800/60 hover:bg-cyan-900/40 text-gray-300 hover:text-cyan-400 transition-colors text-sm"
+              >
+                {c.name}（{c.short_name}）
+              </a>
+            ))}
+          </div> </div>
 
     </div>
   );
